@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vishal Bagade — Embedded Systems & EV Engineering</title>
+  <meta name="author" content="Vishal Bagade" />
+  <meta name="description" content="Vishal Bagade — embedded systems engineer working on EV powertrain validation, firmware, and virtual HIL frameworks." />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Vishal Bagade — Embedded Systems & EV Engineering" />
+  <meta property="og:description" content="Embedded systems engineer working on EV powertrain validation, firmware, and virtual HIL frameworks." />
+  <meta property="og:url" content="https://vishal.evovhil.com/" />
+  <meta property="og:type" content="profile" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Vishal Bagade — Embedded Systems & EV Engineering" />
+  <meta name="twitter:description" content="Embedded systems engineer working on EV powertrain validation, firmware, and virtual HIL frameworks." />
+
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="canonical" href="https://vishal.evovhil.com/" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="portfolio.css" />
+
+  <!-- Analytics — replace with your own tracking IDs -->
+  <!-- Google tag (gtag.js) -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script> -->
+  <!-- GoatCounter -->
+  <!-- <script data-goatcounter="https://your-counter.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script> -->
+</head>
+<body>
+<div class="scanline"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <span class="dot"></span> Vishal Bagade
+    </a>
+    <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="/" class="active">Home</a>
+      <a href="#projects">Projects</a>
+      <a href="/about.html">About</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="container hero-content">
+    <div class="hero-eyebrow">Embedded Systems · EV Powertrain · Virtual Validation</div>
+    <h1 class="hero-title">
+      Vishal Bagade<br>
+      <span>Engineer</span>
+    </h1>
+    <p class="hero-subtitle">
+      Building full-stack validation infrastructure for high-voltage EV systems — from bare-metal firmware to Android Automotive integration.
+    </p>
+    <div class="btn-group">
+      <a href="#projects" class="btn btn-outline">View Projects →</a>
+      <a href="/about.html" class="btn btn-outline">About</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── COMPETENCIES ── -->
+<section class="section" aria-label="Technical competencies">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Stack</div>
+      <h2 class="section-title">Technical Competencies</h2>
+    </div>
+
+    <div class="competency-group">
+
+      <div class="competency-cluster">
+        <div class="competency-label">Hardware</div>
+        <ul class="stack-list" aria-label="Hardware skills">
+          <li>High-Voltage EV Topology</li>
+          <li>Dual-Pack BMS Architecture</li>
+          <li>Contactor Control Logic</li>
+          <li>Precharge Circuits</li>
+          <li>CAN Bus / ISO 15118</li>
+          <li>ASIL-inspired Safety Design</li>
+        </ul>
+      </div>
+
+      <div class="competency-cluster">
+        <div class="competency-label">Firmware</div>
+        <ul class="stack-list" aria-label="Firmware skills">
+          <li>Embedded C / C++</li>
+          <li>RTOS Workflows</li>
+          <li>Renode Simulation</li>
+          <li>Deterministic Fault Injection</li>
+          <li>State Machine Design</li>
+          <li>CAN Bridge Logic</li>
+        </ul>
+      </div>
+
+      <div class="competency-cluster">
+        <div class="competency-label">Systems</div>
+        <ul class="stack-list" aria-label="Systems skills">
+          <li>Android Automotive OS</li>
+          <li>Vendor-side HAL Daemons</li>
+          <li>Virtual HIL Frameworks</li>
+          <li>CI Fault Injection Pipelines</li>
+          <li>System-level Test Architecture</li>
+          <li>Linux / vSocket Networking</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section class="section" id="projects" aria-label="Projects">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Work</div>
+      <h2 class="section-title">Projects</h2>
+      <p class="section-lead">
+        Engineering projects spanning embedded systems, virtual validation infrastructure, and automotive software integration.
+      </p>
+    </div>
+
+    <div class="project-grid">
+
+      <!-- Project card: EVO vHIL -->
+      <a href="https://evovhil.com/" class="project-card" aria-label="EVO vHIL — Virtual HIL for EV Powertrain Validation">
+        <div class="project-card-top">
+          <div class="project-status project-status--active">Active</div>
+          <div class="project-card-icon">⚡</div>
+        </div>
+        <h3 class="project-card-title">EVO vHIL</h3>
+        <p class="project-card-body">
+          Full-stack virtual Hardware-in-the-Loop framework for validating high-voltage EV powertrains. Spans production firmware, Android Automotive integration, and deterministic fault injection — without physical hardware.
+        </p>
+        <div class="project-card-stack">
+          <span class="tech-tag">Renode</span>
+          <span class="tech-tag">CAN</span>
+          <span class="tech-tag">Android Automotive</span>
+          <span class="tech-tag">Embedded C</span>
+        </div>
+        <div class="project-card-cta">View Project →</div>
+      </a>
+
+      <!-- Project card: BMS Architecture (placeholder) -->
+      <a href="https://bms.evovhil.com/" class="project-card" aria-label="BMS Architecture — Battery Management System deep dive">
+        <div class="project-card-top">
+          <div class="project-status project-status--wip">In Progress</div>
+          <div class="project-card-icon">🔋</div>
+        </div>
+        <h3 class="project-card-title">BMS Architecture</h3>
+        <p class="project-card-body">
+          Deep-dive into the EVO Battery Management System: real-time fault handling, dual-pack energy coordination, and safety-critical state transitions across the 84S traction pack.
+        </p>
+        <div class="project-card-stack">
+          <span class="tech-tag">ISO 26262</span>
+          <span class="tech-tag">RTOS</span>
+          <span class="tech-tag">Fault Injection</span>
+        </div>
+        <div class="project-card-cta">View Architecture →</div>
+      </a>
+
+      <!-- Template placeholder — duplicate and fill in -->
+      <a href="/projects/placeholder/" class="project-card project-card--muted" aria-label="Project — coming soon">
+        <div class="project-card-top">
+          <div class="project-status project-status--planned">Planned</div>
+          <div class="project-card-icon">🧪</div>
+        </div>
+        <h3 class="project-card-title">Project Title</h3>
+        <p class="project-card-body">
+          Short description of the project — what it validates, what problem it solves, and the core technical approach. Keep it to 2–3 sentences.
+        </p>
+        <div class="project-card-stack">
+          <span class="tech-tag">Tag</span>
+          <span class="tech-tag">Tag</span>
+        </div>
+        <div class="project-card-cta">View Project →</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Vishal Bagade</div>
+      <div class="footer-meta mt-1">Embedded Systems · EV Powertrain · Virtual Validation</div>
+    </div>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="https://github.com/vishal0002" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/vishal-bagade/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://x.com/VishalBagade121" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="mailto:vishalbagade@gmail.com">Email</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+// Hamburger nav toggle
+const navToggle = document.getElementById('navToggle');
+const navLinks  = document.getElementById('navLinks');
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+  document.addEventListener('click', e => {
+    if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+</script>
+
+</body>
+</html>

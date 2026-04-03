@@ -1,0 +1,526 @@
+/*
+ * portfolio.css
+ * ─────────────────────────────────────────────────────────────
+ * Additive CSS for vishal.evovhil.com personal portfolio.
+ * Imports nothing. Overrides nothing. Extends style.css only.
+ * Load AFTER style.css: <link rel="stylesheet" href="portfolio.css" />
+ * ─────────────────────────────────────────────────────────────
+ */
+
+
+/* ── COMPETENCIES ─────────────────────────────────────────────
+   Homepage tech stack clusters.
+   Three clusters laid out in a responsive row;
+   each cluster has a label + a flex-wrapped pill list.
+───────────────────────────────────────────────────────────── */
+.competency-group {
+  display: grid;
+  gap: 2.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.competency-cluster {
+  /* Each cluster is self-contained — no border needed,
+     spacing carries the visual separation. */
+}
+
+.competency-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.competency-label::before {
+  content: '//';
+  color: var(--text-dim);
+}
+
+.stack-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.stack-list li {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--text);
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.5;
+}
+
+.stack-list li:last-child {
+  border-bottom: none;
+}
+
+
+/* ── PROJECT GRID ─────────────────────────────────────────────
+   Responsive card grid for the homepage projects section.
+   Cards are anchor elements; entire card is the click target.
+───────────────────────────────────────────────────────────── */
+.project-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.project-card {
+  /* Extend .card — apply card base styles without coupling to it */
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  position: relative;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  opacity: 0;
+  border-radius: var(--radius) var(--radius) 0 0;
+  transition: opacity 0.25s;
+}
+
+.project-card:hover {
+  border-color: var(--border-hi);
+  box-shadow: 0 0 24px rgba(0, 212, 255, 0.08);
+  color: inherit;
+}
+
+.project-card:hover::before {
+  opacity: 1;
+}
+
+/* Muted variant for placeholder / coming-soon cards */
+.project-card--muted {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.project-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.project-card-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.project-card-title {
+  font-family: var(--head);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-hi);
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+  /* Intentionally no margin — gap handles spacing */
+}
+
+.project-card-body {
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.7;
+  flex-grow: 1; /* Push stack + cta to bottom */
+  /* Override global p max-width inside card context */
+  max-width: none;
+  margin-bottom: 0;
+}
+
+.project-card-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+}
+
+.project-card-cta {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--cyan);
+  margin-top: 0.5rem;
+  transition: color 0.2s;
+}
+
+.project-card:hover .project-card-cta {
+  color: var(--text-hi);
+}
+
+
+/* ── PROJECT STATUS TAGS ──────────────────────────────────────
+   Small inline status indicators. Used on project cards
+   and on the project header metadata row.
+───────────────────────────────────────────────────────────── */
+.project-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border-radius: 100px;
+}
+
+.project-status::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.project-status--active {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: var(--green);
+}
+.project-status--active::before { background: var(--green); }
+
+.project-status--wip {
+  background: var(--cyan-dim);
+  border: 1px solid var(--border);
+  color: var(--cyan);
+}
+.project-status--wip::before { background: var(--cyan); }
+
+.project-status--planned {
+  background: rgba(96, 112, 128, 0.1);
+  border: 1px solid rgba(96, 112, 128, 0.25);
+  color: var(--text-dim);
+}
+.project-status--planned::before { background: var(--text-dim); }
+
+.project-status--completed {
+  background: var(--amber-dim);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: var(--amber);
+}
+.project-status--completed::before { background: var(--amber); }
+
+.project-status--archived {
+  background: rgba(96, 112, 128, 0.08);
+  border: 1px solid rgba(96, 112, 128, 0.2);
+  color: var(--text-dim);
+}
+.project-status--archived::before { background: var(--text-dim); opacity: 0.5; }
+
+
+/* ── READING COLUMN ───────────────────────────────────────────
+   Constrains project page prose sections to a comfortable
+   reading width (~65ch / 800px), centred within the container.
+───────────────────────────────────────────────────────────── */
+.reading-col {
+  max-width: 800px;
+}
+
+
+/* ── PROJECT HEADER ───────────────────────────────────────────
+   Top section of project pages: back link, title, metadata row.
+   Uses .page-hero rhythm but is a <header> element.
+───────────────────────────────────────────────────────────── */
+.project-header {
+  padding: 3rem 0 2.5rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.project-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(
+    ellipse at 15% 50%,
+    rgba(0, 212, 255, 0.05) 0%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  transition: color 0.2s;
+}
+
+.back-link:hover {
+  color: var(--cyan);
+}
+
+.project-header-title {
+  /* Uses global h1 sizing — no override needed */
+  margin-bottom: 1.5rem;
+}
+
+
+/* ── PROJECT METADATA ROW ─────────────────────────────────────
+   Horizontal description list: Status | Timeline | Stack.
+   Uses <dl> for semantic correctness.
+───────────────────────────────────────────────────────────── */
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.project-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.project-meta dt {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.project-meta dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+
+/* ── ENGINEERING LOG ──────────────────────────────────────────
+   Reverse-chronological update entries.
+   Each entry is an <article class="log-entry">.
+───────────────────────────────────────────────────────────── */
+.log-entry {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.log-entry:first-of-type {
+  padding-top: 0;
+}
+
+.log-entry-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.log-entry-date {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--cyan);
+  flex-shrink: 0;
+}
+
+.log-entry-title {
+  font-family: var(--head);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-hi);
+  letter-spacing: 0.03em;
+  line-height: 1.3;
+}
+
+.log-entry p {
+  margin-bottom: 0;
+  font-size: 0.93rem;
+}
+
+/* ── LOG ARCHIVE (details/summary accordion) ─────────────────
+   Wraps older log entries. Native HTML — zero JS.
+───────────────────────────────────────────────────────────── */
+.log-archive {
+  margin-top: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.log-archive > summary {
+  list-style: none; /* Hide default triangle in Firefox */
+  display: flex;
+  align-items: center;
+  padding: 0.9rem 1.25rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  cursor: pointer;
+  background: var(--bg-card);
+  transition: color 0.2s, background 0.2s;
+  user-select: none;
+}
+
+/* Remove default marker cross-browser */
+.log-archive > summary::-webkit-details-marker { display: none; }
+.log-archive > summary::marker { content: none; }
+
+.log-archive > summary::before {
+  content: '▸';
+  color: var(--text-dim);
+  margin-right: 0.5rem;
+  font-size: 0.7rem;
+  transition: transform 0.2s, color 0.2s;
+  display: inline-block;
+}
+
+.log-archive[open] > summary::before {
+  transform: rotate(90deg);
+  color: var(--cyan);
+}
+
+.log-archive > summary:hover {
+  color: var(--cyan);
+  background: var(--cyan-dim);
+}
+
+.log-archive[open] > summary {
+  border-bottom: 1px solid var(--border);
+  color: var(--cyan);
+}
+
+/* Archived entries inside the open details */
+.log-archive .log-entry {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.log-archive .log-entry:first-of-type {
+  padding-top: 1.5rem;
+}
+
+.log-archive .log-entry:last-of-type {
+  border-bottom: none;
+  padding-bottom: 1.5rem;
+}
+
+
+/* ── GALLERY ──────────────────────────────────────────────────
+   Responsive CSS grid for hardware photos / diagrams.
+   Every <img> must include loading="lazy".
+   Uses the full .container width (not .reading-col).
+───────────────────────────────────────────────────────────── */
+.gallery {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.gallery-item {
+  /* Reset figure margin */
+  margin: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color 0.25s;
+}
+
+.gallery-item:hover {
+  border-color: var(--border-hi);
+}
+
+.gallery-item img {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  /* loading="lazy" must be set in HTML — not enforceable in CSS */
+}
+
+.gallery-item figcaption {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  padding: 0.6rem 0.9rem;
+  border-top: 1px solid var(--border);
+  line-height: 1.5;
+}
+
+
+/* ── RESPONSIVE OVERRIDES ─────────────────────────────────────
+   All breakpoints are additive to style.css @media rules.
+───────────────────────────────────────────────────────────── */
+@media (max-width: 820px) {
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .competency-group {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .project-meta {
+    gap: 1.25rem 1.5rem;
+  }
+
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+
+  .gallery-item img {
+    height: 180px;
+  }
+
+  .log-entry-header {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-item img {
+    height: 200px;
+  }
+
+  .project-card {
+    padding: 1.25rem;
+  }
+
+  .project-header {
+    padding: 2rem 0 2rem;
+  }
+
+}
