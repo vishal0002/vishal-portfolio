@@ -131,8 +131,7 @@
 
     <div class="project-grid">
 
-      <!-- Project card: EVO vHIL -->
-      <a href="https://evovhil.com/" class="project-card" aria-label="EVO vHIL — Virtual HIL for EV Powertrain Validation">
+      <a href="https://evovhil.com/" target="_blank" rel="noopener noreferrer" class="project-card" aria-label="EVO vHIL — Virtual HIL for EV Powertrain Validation">
         <div class="project-card-top">
           <div class="project-status project-status--active">Active</div>
           <div class="project-card-icon">⚡</div>
@@ -147,46 +146,61 @@
           <span class="tech-tag">Android Automotive</span>
           <span class="tech-tag">Embedded C</span>
         </div>
-        <div class="project-card-cta">View Project →</div>
+        <div class="project-card-cta">View Live System →</div>
       </a>
 
-      <!-- Project card: BMS Architecture (placeholder) -->
-      <a href="https://bms.evovhil.com/" class="project-card" aria-label="BMS Architecture — Battery Management System deep dive">
+      <a href="/wsl2-socketcan/" class="project-card" aria-label="WSL2 SocketCAN vCAN Kernel">
+        <div class="project-card-top">
+          <div class="project-status" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444;">🔥 Trending</div>
+          <div class="project-card-icon">🐧</div>
+        </div>
+        <h3 class="project-card-title">WSL2 SocketCAN Custom Kernel</h3>
+        <p class="project-card-body">
+          A custom-compiled Linux kernel for WSL2 enabling native SocketCAN and vCAN interfaces. Built to facilitate virtual EV firmware testing without physical Linux hardware or USB adapters.
+        </p>
+        <div class="project-card-stack">
+          <span class="tech-tag">Linux Kernel</span>
+          <span class="tech-tag">SocketCAN</span>
+          <span class="tech-tag">WSL2</span>
+        </div>
+        <div class="project-card-cta">View Architecture →</div>
+      </a>
+
+      <a href="/electric-bike-76v/" class="project-card" aria-label="76V Custom Electric Bike Build">
+        <div class="project-card-top">
+          <div class="project-status project-status--completed">Completed</div>
+          <div class="project-card-icon">🏍️</div>
+        </div>
+        <h3 class="project-card-title">76V Custom E-Bike</h3>
+        <p class="project-card-body">
+          Ground-up engineering of a high-performance 76V electric bike. Focuses on custom powertrain integration, dual-pack battery architecture, and high-voltage mechanical design.
+        </p>
+        <div class="project-card-stack">
+          <span class="tech-tag">Hardware</span>
+          <span class="tech-tag">Powertrain</span>
+          <span class="tech-tag">High Voltage</span>
+        </div>
+        <div class="project-card-cta">View Build Log →</div>
+      </a>
+
+      <a href="https://bms.evovhil.com/" target="_blank" rel="noopener noreferrer" class="project-card" aria-label="BMS Architecture — Battery Management System deep dive">
         <div class="project-card-top">
           <div class="project-status project-status--wip">In Progress</div>
           <div class="project-card-icon">🔋</div>
         </div>
         <h3 class="project-card-title">BMS Architecture</h3>
         <p class="project-card-body">
-          Deep-dive into the EVO Battery Management System: real-time fault handling, dual-pack energy coordination, and safety-critical state transitions across the 84S traction pack.
+          Deep-dive into the EVO Battery Management System: real-time fault handling, dual-pack energy coordination, and safety-critical state transitions across the traction pack.
         </p>
         <div class="project-card-stack">
           <span class="tech-tag">ISO 26262</span>
           <span class="tech-tag">RTOS</span>
-          <span class="tech-tag">Fault Injection</span>
+          <span class="tech-tag">State Machines</span>
         </div>
-        <div class="project-card-cta">View Architecture →</div>
-      </a>
-
-      <!-- Template placeholder — duplicate and fill in -->
-      <a href="/projects/placeholder/" class="project-card project-card--muted" aria-label="Project — coming soon">
-        <div class="project-card-top">
-          <div class="project-status project-status--planned">Planned</div>
-          <div class="project-card-icon">🧪</div>
-        </div>
-        <h3 class="project-card-title">Project Title</h3>
-        <p class="project-card-body">
-          Short description of the project — what it validates, what problem it solves, and the core technical approach. Keep it to 2–3 sentences.
-        </p>
-        <div class="project-card-stack">
-          <span class="tech-tag">Tag</span>
-          <span class="tech-tag">Tag</span>
-        </div>
-        <div class="project-card-cta">View Project →</div>
+        <div class="project-card-cta">View Docs →</div>
       </a>
 
     </div>
-  </div>
 </section>
 
 <!-- ── FOOTER ── -->
