@@ -1,1 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>WSL2 SocketCAN Custom Kernel — Vishal Bagade</title>
+  <meta name="author" content="Vishal Bagade" />
+  <meta name="description" content="A custom-compiled Linux kernel for WSL2 enabling native SocketCAN and vCAN interfaces for virtual EV firmware testing." />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="WSL2 SocketCAN Custom Kernel — Vishal Bagade" />
+  <meta property="og:description" content="Enabling native SocketCAN in WSL2 for virtual EV powertrain validation." />
+  <meta property="og:url" content="https://vishal.evovhil.com/wsl2-socketcan/" />
+  <meta property="og:type" content="article" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="WSL2 SocketCAN Custom Kernel — Vishal Bagade" />
+  <meta name="twitter:description" content="Enabling native SocketCAN in WSL2 for virtual EV powertrain validation." />
+
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="canonical" href="https://vishal.evovhil.com/wsl2-socketcan/" />
+
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../portfolio.css" />
+</head>
+<body>
+<div class="scanline"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <span class="dot"></span> Vishal Bagade
+    </a>
+    <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="/">Home</a>
+      <a href="/#projects">Projects</a>
+      <a href="/about.html">About</a>
+    </div>
+  </div>
+</nav>
+
+<header class="project-header">
+  <div class="container reading-col">
+
+    <a href="/#projects" class="back-link" aria-label="Back to all projects">
+      ← Back to Projects
+    </a>
+
+    <h1 class="project-header-title">WSL2 SocketCAN Custom Kernel</h1>
+
+    <dl class="project-meta">
+      <div class="project-meta-item">
+        <dt>Status</dt>
+        <dd>
+          <span class="project-status" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444;">
+            🔥 Trending on r/embedded
+          </span>
+        </dd>
+      </div>
+      <div class="project-meta-item">
+        <dt>Timeline</dt>
+        <dd class="mono text-dim">April 2024</dd>
+      </div>
+      <div class="project-meta-item">
+        <dt>Core Stack</dt>
+        <dd>
+          <span class="tech-tag">Linux Kernel</span>
+          <span class="tech-tag">SocketCAN</span>
+          <span class="tech-tag">WSL2</span>
+        </dd>
+      </div>
+      <div class="project-meta-item">
+        <dt>Links</dt>
+        <dd>
+          <a href="https://github.com/vishal0002/wsl2-socketcan-vcan" target="_blank" style="color: var(--cyan); text-decoration: none; font-family: var(--mono); font-size: 0.85rem;">GitHub Repo ↗</a>
+        </dd>
+      </div>
+    </dl>
+
+  </div>
+</header>
+
+<main>
+
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="section-header">
+        <div class="section-tag">Overview</div>
+        <h2 class="section-title">The "No-Hardware" Constraint</h2>
+      </div>
+
+      <p>
+        When developing embedded Linux systems or automotive firmware on Windows, developers historically had two choices: run a heavy Type-1 Virtual Machine (like VirtualBox), or buy expensive external USB-to-CAN adapters to pass through to the OS. WSL2 is incredibly fast, but Microsoft's default WSL2 kernel ships with CAN networking stripped out.
+      </p>
+      <p>
+        I built this custom kernel to bypass those limitations. By recompiling the WSL2 kernel from source (6.6.x) with SocketCAN and virtual CAN (vCAN) modules enabled, I allowed native CAN interfaces to be spun up directly inside the Windows subsystem without any external hardware.
+      </p>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="section-header">
+        <div class="section-tag">Context</div>
+        <h2 class="section-title">The EVO vHIL Connection</h2>
+      </div>
+
+      <p>
+        While this utility gained unexpected traction in the broader embedded community, it was specifically engineered to solve a critical bottleneck in the <strong>EVO vHIL</strong> project.
+      </p>
+      <p>
+        To validate EV powertrain logic without physical microcontrollers, I needed a way to bridge CAN frames from a simulated MCU (running in Renode) directly into an Android Automotive HAL daemon. A native <code>vcan0</code> interface inside WSL2 provided the exact deterministic, zero-latency network bridge required to make the virtual Hardware-in-the-Loop system function.
+      </p>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="section-header">
+        <div class="section-tag">Implementation</div>
+        <h2 class="section-title">Kernel Configuration</h2>
+      </div>
+
+      <p>
+        The implementation required pulling the exact Linux kernel version utilized by WSL2 (<code>6.6.123.2-microsoft-standard</code>), running <code>menuconfig</code>, and manually injecting the required networking modules before recompiling the <code>bzImage</code>.
+      </p>
+
+      <ul class="feature-list mt-4">
+        <li>
+          <span class="icon" aria-hidden="true">→</span>
+          <div>
+            <strong>CONFIG_CAN</strong> — Enabled the base Controller Area Network networking stack.
+          </div>
+        </li>
+        <li>
+          <span class="icon" aria-hidden="true">→</span>
+          <div>
+            <strong>CONFIG_CAN_RAW</strong> — Enabled raw SocketCAN access, allowing standard Linux utilities like <code>candump</code> and <code>cansend</code> to interface with the bus.
+          </div>
+        </li>
+        <li>
+          <span class="icon" aria-hidden="true">→</span>
+          <div>
+            <strong>CONFIG_CAN_VCAN</strong> — Enabled the Virtual Local CAN Interface (vcan), allowing software-only CAN bridging within the kernel.
+          </div>
+        </li>
+      </ul>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="section-header">
+        <div class="section-tag">Log</div>
+        <h2 class="section-title">Engineering Log</h2>
+      </div>
+
+      <article class="log-entry">
+        <div class="log-entry-header">
+          <time class="log-entry-date" datetime="2024-04-03">2024-04-03</time>
+          <h3 class="log-entry-title">Viral Adoption on r/embedded</h3>
+        </div>
+        <p>
+          Posted the compiled kernel and instructions to the r/embedded subreddit. The repository hit the #1 spot for the day, accumulating over 10,000 views in 48 hours, validating that the lack of native WSL2 SocketCAN was a widespread friction point for automotive and embedded engineers.
+        </p>
+      </article>
+
+      <article class="log-entry">
+        <div class="log-entry-header">
+          <time class="log-entry-date" datetime="2024-04-01">2024-04-01</time>
+          <h3 class="log-entry-title">Kernel Compilation & Verification</h3>
+        </div>
+        <p>
+          Successfully compiled the custom <code>bzImage</code>. Verified that <code>sudo ip link add dev vcan0 type vcan</code> brings the interface up cleanly without the "FATAL: Module not found" error. Integrated into the EVO vHIL pipeline.
+        </p>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="section-header">
+        <div class="section-tag">Gallery</div>
+        <h2 class="section-title">Verification</h2>
+      </div>
+
+      <div class="gallery" role="list" style="grid-template-columns: 1fr; max-width: 900px; margin: 0 auto;">
+        
+        <figure class="gallery-item" role="listitem" style="background: #000;">
+          <img
+            src="assets/vcan-kernel.png"
+            alt="Terminal screenshot showing successful creation of vcan0 interface in WSL2"
+            loading="lazy"
+            style="object-fit: contain; padding: 1rem; max-height: 400px;"
+          />
+          <figcaption style="background: var(--bg-card);">Successful modprobe and initialization of the vcan0 interface natively in WSL2.</figcaption>
+        </figure>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Vishal Bagade</div>
+      <div class="footer-meta mt-1">Embedded Systems · EV Powertrain · Virtual Validation</div>
+    </div>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="/#projects">Projects</a>
+      <a href="https://github.com/vishal0002" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/vishal-bagade/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="mailto:vishalbagade@gmail.com">Email</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+// Hamburger nav toggle
+const navToggle = document.getElementById('navToggle');
+const navLinks  = document.getElementById('navLinks');
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+  document.addEventListener('click', e => {
+    if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+</script>
+
+</body>
+</html>
