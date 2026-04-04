@@ -1,1 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>76V Custom E-Bike Build — Vishal Bagade</title>
+  <meta name="author" content="Vishal Bagade" />
+  <meta name="description" content="Ground-up engineering of a 3kW, 76V electric bike featuring a custom 24S5P LiFePO4 battery pack and VESC integration." />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="76V Custom E-Bike Build — Vishal Bagade" />
+  <meta property="og:description" content="Physical powertrain integration, custom battery building, and low-voltage control design." />
+  <meta property="og:url" content="https://vishal.evovhil.com/electric-bike-76v/" />
+  <meta property="og:type" content="article" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="76V Custom E-Bike Build — Vishal Bagade" />
+  <meta name="twitter:description" content="Physical powertrain integration, custom battery building, and low-voltage control design." />
+
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="canonical" href="https://vishal.evovhil.com/electric-bike-76v/" />
+
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../portfolio.css" />
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVS54RD7KM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EVS54RD7KM');
+  </script>
+  <script>
+    function trackEvent(name, params = {}) {
+      gtag('event', name, params);
+    }
+  </script>
+</head>
+<body>
+<div class="scanline"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <span class="dot"></span> Vishal Bagade
+    </a>
+    <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="/">Home</a>
+      <a href="/#about">About</a>
+      <a href="/#projects">Projects</a>
+    </div>
+  </div>
+</nav>
+
+<header class="project-header">
+  <div class="container reading-col">
+
+    <a href="/#projects" class="back-link" aria-label="Back to all projects" onclick="trackEvent('nav_back', { project: '76v_bike' })">
+      ← Back to Projects
+    </a>
+
+    <h1 class="project-header-title">76V Custom E-Bike</h1>
+
+    <dl class="project-meta">
+      <div class="project-meta-item">
+        <dt>Status</dt>
+        <dd><span class="project-status project-status--completed">Completed</span></dd>
+      </div>
+      <div class="project-meta-item">
+        <dt>Focus</dt>
+        <dd class="mono text-dim">Hardware & Physical Integration</dd>
+      </div>
+      <div class="project-meta-item">
+        <dt>Core Specs</dt>
+        <dd>
+          <span class="tech-tag">3kW BLDC Hub</span>
+          <span class="tech-tag">24S5P LiFePO4</span>
+          <span class="tech-tag">VESC (100V/200A)</span>
+        </dd>
+      </div>
+    </dl>
+
+  </div>
+</header>
+
+<main>
+
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="section-header">
+        <div class="section-tag">Genesis</div>
+        <h2 class="section-title">The First Hardware Build</h2>
+      </div>
+
+      <p>
+        Before writing simulators or engineering complex software architectures, you have to understand the physical realities of power delivery. This 76V electric bike was my first complete hardware build. 
+      </p>
+      <p>
+        The objective was not aesthetic perfection—it was raw functional engineering. I focused entirely on high-current routing, structural mounting, and integrating a custom battery architecture with a high-performance VESC motor controller to push a 3kW BLDC hub motor safely.
+      </p>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="section-header">
+        <div class="section-tag">Context</div>
+        <h2 class="section-title">Why EVO vHIL Exists</h2>
+      </div>
+
+      <p>
+        Building this physical 76V system was the catalyst for the rest of my engineering portfolio. Debugging control logic, tuning throttle curves, and managing BMS states on a live, physical machine capable of pulling massive current is inherently risky and tedious. 
+      </p>
+      <div class="callout mt-3">
+        <h4 style="margin-bottom:0.5rem;">The Engineering Pivot</h4>
+        <p style="margin:0;">
+          My upcoming project is a custom 300V EV architecture with a bespoke schematic and PCB design. Knowing the dangers of live debugging from this 76V build, I realized I needed a simulator. <strong>The entire EVO vHIL framework was built so I can validate the firmware for my 300V architecture before it ever touches physical voltage.</strong>
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="section-header">
+        <div class="section-tag">Hardware</div>
+        <h2 class="section-title">System Architecture</h2>
+      </div>
+
+      <p>
+        The powertrain and energy storage were engineered to provide high continuous discharge with significant thermal overhead.
+      </p>
+
+      <ul class="feature-list mt-4">
+        <li>
+          <span class="icon" aria-hidden="true">→</span>
+          <div>
+            <strong>Energy Storage:</strong> A custom 76V, 75Ah battery pack built using a 24S5P configuration of 33140 cylindrical LiFePO4 cells (15Ah each).
+          </div>
+        </li>
+        <li>
+          <span class="icon" aria-hidden="true">→</span>
+          <div>
+            <strong>Battery Management:</strong> A JK BMS handles active balancing and safety cutoffs for the 24-series cell topology.
+          </div>
+        </li>
+        <li>
+          <span class="icon" aria-hidden="true">→</span>
+          <div>
+            <strong>Powertrain:</strong> A 3kW brushless DC (BLDC) hub motor integrated directly into the rear wheel.
+          </div>
+        </li>
+        <li>
+          <span class="icon" aria-hidden="true">→</span>
+          <div>
+            <strong>Motor Controller:</strong> A VESC rated for 100V and 200A, providing massive headroom for the 76V system and allowing fine-tuned control over phase currents and regenerative braking.
+          </div>
+        </li>
+      </ul>
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="section-header">
+        <div class="section-tag">Gallery</div>
+        <h2 class="section-title">Build Progression</h2>
+        <p class="section-lead">From bare frame to fully functional prototype.</p>
+      </div>
+
+      <div class="gallery" role="list">
+
+        <figure class="gallery-item" role="listitem">
+          <img
+            src="assets/IMG_20241006_182403996.jpg"
+            alt="The bare frame of the bike with the empty battery box being test-fitted"
+            loading="lazy"
+          />
+          <figcaption><strong>Phase 1:</strong> The very first photo of the build. Checking the spatial constraints and fitment of the custom battery box within the frame geometry.</figcaption>
+        </figure>
+
+        <figure class="gallery-item" role="listitem">
+          <img
+            src="assets/IMG_20241007_182102136.jpg"
+            alt="The bike standing on its wheels with the 3kW BLDC rear hub motor installed"
+            loading="lazy"
+          />
+          <figcaption><strong>Phase 2:</strong> The bike standing on its own wheels. The 3kW BLDC hub motor is mounted, establishing the rolling chassis before high-voltage wiring began.</figcaption>
+        </figure>
+
+        <figure class="gallery-item" role="listitem">
+          <img
+            src="assets/IMG_20260206_194111363.jpg"
+            alt="The fully assembled electric bike in a raw, functional state"
+            loading="lazy"
+          />
+          <figcaption><strong>Phase 3:</strong> 100% functional build. The 24S5P LiFePO4 pack, JK BMS, and VESC are fully integrated. A purely raw, engineering-first aesthetic.</figcaption>
+        </figure>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Vishal Bagade</div>
+      <div class="footer-meta mt-1">Embedded Systems · EV Powertrain · Virtual Validation</div>
+    </div>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="https://github.com/vishal0002" target="_blank" rel="noopener noreferrer" onclick="trackEvent('outbound_social', { platform: 'github', location: 'footer' })">GitHub</a>
+      <a href="https://www.linkedin.com/in/vishal-bagade/" target="_blank" rel="noopener noreferrer" onclick="trackEvent('outbound_social', { platform: 'linkedin', location: 'footer' })">LinkedIn</a>
+      <a href="https://x.com/VishalBagade121" target="_blank" rel="noopener noreferrer" onclick="trackEvent('outbound_social', { platform: 'x', location: 'footer' })">X</a>
+      <a href="mailto:vishalbagade@gmail.com" onclick="trackEvent('contact_click', { method: 'email_footer' })">Email</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+const navToggle = document.getElementById('navToggle');
+const navLinks  = document.getElementById('navLinks');
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
+</script>
+
+</body>
+</html>
