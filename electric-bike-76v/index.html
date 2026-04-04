@@ -36,6 +36,180 @@
       gtag('event', name, params);
     }
   </script>
+
+  <style>
+    /* ── PAGE-LOCAL STYLES ── */
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: #000;
+    }
+    .video-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+    .video-wrap--portrait {
+      max-width: 360px;
+      padding-bottom: 0; 
+      height: auto;
+      aspect-ratio: 9 / 16;
+    }
+    .video-wrap--portrait iframe {
+      position: static;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .video-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .video-block + .video-block {
+      margin-top: 2.5rem;
+    }
+    .video-block-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+    }
+    .video-block-title {
+      font-family: var(--head);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-hi);
+      margin: 0;
+    }
+    .video-block-desc {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      margin: 0;
+      max-width: 52ch;
+    }
+    .img-callout {
+      width: 100%;
+      background: #000;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 2rem 0;
+    }
+    .img-callout img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 520px;
+      object-fit: contain;
+    }
+    .img-callout figcaption {
+      padding: 0.75rem 1rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      border-top: 1px solid var(--border);
+      line-height: 1.6;
+    }
+    .img-callout--center img {
+      max-height: 600px;
+      object-fit: contain;
+      margin: 0 auto;
+      display: block;
+      width: auto;
+      max-width: 100%;
+    }
+    .callout-pivot {
+      border-left: 3px solid var(--cyan);
+      background: rgba(0, 212, 255, 0.04);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 2rem;
+      margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .callout-pivot::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 40%;
+      background: radial-gradient(ellipse at 100% 50%, rgba(0,212,255,0.06), transparent 70%);
+      pointer-events: none;
+    }
+    .callout-pivot h3 {
+      color: var(--cyan);
+      font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+      margin-bottom: 1rem;
+    }
+    .callout-pivot p {
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+      max-width: 62ch;
+    }
+    .callout-pivot p:last-child { margin-bottom: 0; }
+    .danger-note {
+      display: inline-flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--red);
+      line-height: 1.6;
+      margin: 1.25rem 0;
+      width: 100%;
+    }
+    .danger-note::before {
+      content: '⚠';
+      flex-shrink: 0;
+      font-size: 0.9rem;
+    }
+    .spec-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      margin: 1.75rem 0;
+    }
+    .spec-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      min-width: 110px;
+      flex: 1;
+    }
+    .spec-item-val {
+      font-family: var(--head);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--cyan);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .spec-item-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    @media (max-width: 480px) {
+      .video-wrap--portrait { max-width: 100%; }
+      .spec-item { min-width: calc(50% - 0.625rem); }
+      .callout-pivot { padding: 1.25rem; }
+    }
+  </style>
 </head>
 <body>
 <div class="scanline"></div>
@@ -58,13 +232,10 @@
 
 <header class="project-header">
   <div class="container reading-col">
-
     <a href="/#projects" class="back-link" aria-label="Back to all projects" onclick="trackEvent('nav_back', { project: '76v_bike' })">
       ← Back to Projects
     </a>
-
     <h1 class="project-header-title">76V Custom E-Bike</h1>
-
     <dl class="project-meta">
       <div class="project-meta-item">
         <dt>Status</dt>
@@ -79,11 +250,10 @@
         <dd>
           <span class="tech-tag">3kW BLDC Hub</span>
           <span class="tech-tag">24S5P LiFePO4</span>
-          <span class="tech-tag">VESC (100V/200A)</span>
+          <span class="tech-tag">VESC 100V/200A</span>
         </dd>
       </div>
     </dl>
-
   </div>
 </header>
 
@@ -91,123 +261,187 @@
 
   <section class="section">
     <div class="container reading-col">
-
       <div class="section-header">
         <div class="section-tag">Genesis</div>
         <h2 class="section-title">The First Hardware Build</h2>
       </div>
-
+      
       <p>
-        Before writing simulators or engineering complex software architectures, you have to understand the physical realities of power delivery. This 76V electric bike was my first complete hardware build. 
-      </p>
-      <p>
-        The objective was not aesthetic perfection—it was raw functional engineering. I focused entirely on high-current routing, structural mounting, and integrating a custom battery architecture with a high-performance VESC motor controller to push a 3kW BLDC hub motor safely.
+        I started here: a bare frame, a pile of cylindrical cells, heavy-gauge cable, and the goal to safely push a 3kW hub motor. The objective was not to build a beautiful, polished bike. It was to learn high-current routing, pack assembly, and what it physically feels like when 76 volts is live.
       </p>
 
+      <figure class="img-callout" aria-label="Frame test fit — Phase 1">
+        <img src="../assets/frame-test-fit.jpg" alt="Bare bike frame with the empty custom battery enclosure being dry-fitted" loading="lazy" />
+        <figcaption>
+          <strong>Phase 1 —</strong> Dry-fitting the battery enclosure. Checking clearance against the frame rails and confirming cable routing paths before any cells were installed.
+        </figcaption>
+      </figure>
     </div>
   </section>
 
   <section class="section">
     <div class="container reading-col">
-
       <div class="section-header">
-        <div class="section-tag">Context</div>
-        <h2 class="section-title">Why EVO vHIL Exists</h2>
-      </div>
-
-      <p>
-        Building this physical 76V system was the catalyst for the rest of my engineering portfolio. Debugging control logic, tuning throttle curves, and managing BMS states on a live, physical machine capable of pulling massive current is inherently risky and tedious. 
-      </p>
-      <div class="callout mt-3">
-        <h4 style="margin-bottom:0.5rem;">The Engineering Pivot</h4>
-        <p style="margin:0;">
-          My upcoming project is a custom 300V EV architecture with a bespoke schematic and PCB design. Knowing the dangers of live debugging from this 76V build, I realized I needed a simulator. <strong>The entire EVO vHIL framework was built so I can validate the firmware for my 300V architecture before it ever touches physical voltage.</strong>
-        </p>
-      </div>
-
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container reading-col">
-
-      <div class="section-header">
-        <div class="section-tag">Hardware</div>
+        <div class="section-tag">Architecture</div>
         <h2 class="section-title">System Architecture</h2>
       </div>
-
       <p>
-        The powertrain and energy storage were engineered to provide high continuous discharge with significant thermal overhead.
+        Every component was chosen for overhead, not just adequacy. Operating well within thermal and electrical limits is the only margin of safety you have when building a custom system.
       </p>
 
-      <ul class="feature-list mt-4">
+      <div class="spec-row" aria-label="Key specifications">
+        <div class="spec-item"><div class="spec-item-val">76V</div><div class="spec-item-label">Pack Voltage</div></div>
+        <div class="spec-item"><div class="spec-item-val">75Ah</div><div class="spec-item-label">Pack Capacity</div></div>
+        <div class="spec-item"><div class="spec-item-val">3kW</div><div class="spec-item-label">Hub Motor</div></div>
+        <div class="spec-item"><div class="spec-item-val">200A</div><div class="spec-item-label">VESC Rating</div></div>
+      </div>
+
+      <ul class="feature-list mt-3">
         <li>
           <span class="icon" aria-hidden="true">→</span>
-          <div>
-            <strong>Energy Storage:</strong> A custom 76V, 75Ah battery pack built using a 24S5P configuration of 33140 cylindrical LiFePO4 cells (15Ah each).
-          </div>
+          <div><strong>Energy Storage —</strong> 24S5P configuration using 33140 cylindrical LiFePO4 cells (15Ah each). LiFePO4 was chosen for its superior thermal stability—critical for a pack without active cooling.</div>
         </li>
         <li>
           <span class="icon" aria-hidden="true">→</span>
-          <div>
-            <strong>Battery Management:</strong> A JK BMS handles active balancing and safety cutoffs for the 24-series cell topology.
-          </div>
+          <div><strong>Battery Management —</strong> A JK BMS handles active cell balancing, over-current protection, and thermal cutoffs.</div>
         </li>
         <li>
           <span class="icon" aria-hidden="true">→</span>
-          <div>
-            <strong>Powertrain:</strong> A 3kW brushless DC (BLDC) hub motor integrated directly into the rear wheel.
-          </div>
+          <div><strong>Powertrain —</strong> A 3kW brushless DC hub motor laced directly into the rear wheel.</div>
         </li>
         <li>
           <span class="icon" aria-hidden="true">→</span>
-          <div>
-            <strong>Motor Controller:</strong> A VESC rated for 100V and 200A, providing massive headroom for the 76V system and allowing fine-tuned control over phase currents and regenerative braking.
-          </div>
+          <div><strong>Motor Controller —</strong> A VESC rated for 100V/200A continuous, ensuring the 76V system bus never approaches the controller's absolute limit.</div>
         </li>
       </ul>
+    </div>
+  </section>
 
+  <section class="section">
+    <div class="container reading-col">
+      <div class="section-header">
+        <div class="section-tag">Energy Storage</div>
+        <h2 class="section-title">Building the 24S5P Pack</h2>
+      </div>
+      <p>
+        Assembling the pack was the most critical phase. The 33140 format cells are large and heavy. Arranging 120 of them (24 series × 5 parallel) to fit the enclosure while maintaining consistent compression and allowing heat to escape required careful planning.
+      </p>
+      <p>
+        The interconnects carry real current. Every connection was made with properly sized copper busbar stock and verified for resistance. To maintain a robust mechanical build, the cells were secured and connected using bolted compression terminals rather than spot welds.
+      </p>
+
+      <div class="danger-note" role="note">
+        76V exceeds the standard 60V DC "safe to touch" threshold. While individual parallel groups are safe in isolation, the full series string is lethal. Extreme caution was required during final assembly.
+      </div>
+
+      <div class="gallery mt-4" role="list" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+        <figure class="gallery-item" role="listitem">
+          <img src="../assets/pack-assembly-1.jpg" alt="33140 cylindrical LiFePO4 cells arranged into the 24S5P topology" loading="lazy" />
+          <figcaption>Cell layout — verifying the physical arrangement of the 24S5P topology.</figcaption>
+        </figure>
+        <figure class="gallery-item" role="listitem">
+          <img src="../assets/pack-assembly-2.jpg" alt="High-current busbar connections routed between series cell groups" loading="lazy" />
+          <figcaption>Routing the high-current series busbar connections.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container reading-col">
+      <div class="section-header">
+        <div class="section-tag">Safety & State</div>
+        <h2 class="section-title">Active Balancing & Telemetry</h2>
+      </div>
+      <p>
+        A 24-series LiFePO4 pack requires active intervention to prevent voltage drift across cells. The JK BMS shuttles charge from high-voltage groups to low-voltage groups during the balance window, rather than just burning off excess energy as heat. The telemetry proves this: the cell voltage delta across all 24 series groups stays consistently tight under load.
+      </p>
+
+      <figure class="img-callout img-callout--center" aria-label="JK BMS telemetry readout">
+        <img src="../assets/jk-bms-stats.jpg" alt="JK BMS application showing tight cell voltage delta" loading="lazy" />
+        <figcaption>Live telemetry from the JK BMS. A consistently small voltage spread across all 24 groups confirms the active balancing is functioning perfectly.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container reading-col">
+      <div class="section-header">
+        <div class="section-tag">Verification</div>
+        <h2 class="section-title">Sub-System Testing</h2>
+      </div>
+      <p>
+        Nothing went on the frame until it had been tested off the frame. The motor controller was load-tested and throttle mapping was verified before the custom pack was introduced.
+      </p>
+
+      <div class="video-block mt-4">
+        <span class="video-block-label">Log 01 · Bench Test</span>
+        <h3 class="video-block-title">VESC & Motor — AC/DC Supply Verification</h3>
+        <p class="video-block-desc">Initial VESC configuration and first motor spin using a current-limited bench power supply to confirm initialization without hardware faults.</p>
+        <div class="video-wrap" role="figure" aria-label="VESC bench test video">
+          <iframe src="https://www.youtube.com/embed/2i9C5B2awzM" title="VESC 100V/200A bench test" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <div class="video-block">
+        <span class="video-block-label">Log 02 · Throttle Mapping</span>
+        <h3 class="video-block-title">Raw Throttle Response — 72V Loaner Pack</h3>
+        <p class="video-block-desc">Testing throttle curve linearity and VESC current ramp behavior on a 72V loaner pack while the custom battery assembly was being completed.</p>
+        <div class="video-wrap video-wrap--portrait" role="figure" aria-label="Throttle response test video">
+          <iframe src="https://www.youtube.com/embed/Wi2z4IdD6Rc" title="Throttle mapping test on 72V loaner battery" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-
       <div class="section-header">
-        <div class="section-tag">Gallery</div>
-        <h2 class="section-title">Build Progression</h2>
-        <p class="section-lead">From bare frame to fully functional prototype.</p>
+        <div class="section-tag">Assembly</div>
+        <h2 class="section-title">The Raw Prototype</h2>
       </div>
+      <p style="max-width: 68ch;">
+        No fairings, no paint, no aesthetics. The objective was a fully functional drivetrain with all electrical systems integrated and verified. This is what pure functional engineering looks like.
+      </p>
 
-      <div class="gallery" role="list">
-
+      <div class="gallery mt-4" role="list">
         <figure class="gallery-item" role="listitem">
-          <img
-            src="assets/IMG_20241006_182403996.jpg"
-            alt="The bare frame of the bike with the empty battery box being test-fitted"
-            loading="lazy"
-          />
-          <figcaption><strong>Phase 1:</strong> The very first photo of the build. Checking the spatial constraints and fitment of the custom battery box within the frame geometry.</figcaption>
+          <img src="../assets/rolling-chassis.jpg" alt="Electric bike rolling chassis with 3kW motor installed" loading="lazy" />
+          <figcaption><strong>Phase 2 —</strong> Rolling chassis. Motor laced into the rear wheel.</figcaption>
         </figure>
-
         <figure class="gallery-item" role="listitem">
-          <img
-            src="assets/IMG_20241007_182102136.jpg"
-            alt="The bike standing on its wheels with the 3kW BLDC rear hub motor installed"
-            loading="lazy"
-          />
-          <figcaption><strong>Phase 2:</strong> The bike standing on its own wheels. The 3kW BLDC hub motor is mounted, establishing the rolling chassis before high-voltage wiring began.</figcaption>
+          <img src="../assets/raw-prototype.jpg" alt="Fully assembled 76V electric bike in raw functional state" loading="lazy" />
+          <figcaption><strong>Phase 3 —</strong> 100% functional. 24S5P pack, BMS, and VESC operational.</figcaption>
         </figure>
+      </div>
+    </div>
+  </section>
 
-        <figure class="gallery-item" role="listitem">
-          <img
-            src="assets/IMG_20260206_194111363.jpg"
-            alt="The fully assembled electric bike in a raw, functional state"
-            loading="lazy"
-          />
-          <figcaption><strong>Phase 3:</strong> 100% functional build. The 24S5P LiFePO4 pack, JK BMS, and VESC are fully integrated. A purely raw, engineering-first aesthetic.</figcaption>
-        </figure>
+  <section class="section" style="padding-bottom: 5rem;">
+    <div class="container reading-col">
+      <div class="section-header">
+        <div class="section-tag">Conclusion</div>
+        <h2 class="section-title">What This Build Taught Me</h2>
+      </div>
+      <p>
+        The most important thing I learned from this project wasn't about LiFePO4 chemistry. It was about the reality of debugging live hardware.
+      </p>
+      <p>
+        Every time I needed to verify a firmware behavior or a BMS cutoff threshold, I was doing it with real voltage and real consequences. Changing a parameter meant powering down, flashing, and testing again in a cycle that is intentionally slow because rushing on a live 76V system is dangerous.
+      </p>
 
+      <div class="callout-pivot" role="complementary" aria-label="Project pivot — motivation for EVO vHIL">
+        <div class="section-tag" style="margin-bottom: 0.75rem;">The Pivot</div>
+        <h3>Why EVO vHIL Exists</h3>
+        <p>
+          My next project is a ground-up 300V EV architecture with custom schematics and firmware. At 300V, the energy stored in a pack isn't just enough to damage hardware—it can kill. 
+        </p>
+        <p>
+          Knowing the risks from this 76V build, I realized I needed a way to validate state transitions and fault responses without any of my code touching live voltage until it had been proven in simulation.
+        </p>
+        <p>
+          <strong>That is exactly why I built <a href="https://evovhil.com/" target="_blank" rel="noopener noreferrer" onclick="trackEvent('outbound_evovhil', { source: 'bike_pivot' })">EVO vHIL</a>.</strong> It allows me to run production-intent firmware against a simulated powertrain before it ever sees a real one. This 76V bike is the reason that simulator exists.
+        </p>
       </div>
     </div>
   </section>
