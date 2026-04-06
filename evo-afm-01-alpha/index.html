@@ -234,35 +234,12 @@
         This project is a raw, scrappy, hands-on proof of concept. The goal wasn't to build a production-ready motor, but to understand the realities of phase wiring, magnetic flux, and the sheer mechanical forces involved in an axial flux geometry. I wanted to see the physics working in front of me.
       </p>
 
-      <figure class="img-callout" aria-label="Exploded view of the motor">
-        <img src="assets/exploded-view.jpg" alt="Exploded view showing the stator winding and rotor magnets" loading="lazy" />
+      <figure class="img-callout" aria-label="Exploded cross-section of the motor">
+        <img src="assets/exploded-view.jpg" alt="Exploded view showing the cross section of the motor..." loading="lazy" />
         <figcaption>
-          <strong>The Architecture —</strong> An exploded view of the core assembly. The central stationary stator (top) interacts with the spinning rotor halves (bottom) packed with alternating neodymium magnets.
+          <strong>The Architecture —</strong> An exploded cross-section view of the core assembly. This highlights how the central stationary stator interacts with the two spinning rotor halves.
         </figcaption>
       </figure>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container reading-col">
-      <div class="section-header">
-        <div class="section-tag">The Stator</div>
-        <h2 class="section-title">Triangular Phase Winding</h2>
-      </div>
-      <p>
-        The stator is the heart of the electromagnetic circuit. For this build, I utilized a 30-slot, 3-phase triangular winding layout. This specific pattern ensures that each phase coil efficiently interacts with the passing magnetic fields of both rotor halves simultaneously, maximizing torque for the footprint.
-      </p>
-
-      <div class="gallery mt-4" role="list" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
-        <figure class="gallery-item" role="listitem">
-          <img src="assets/stator-windings.jpg" alt="Close up of the copper windings in the 3D printed stator" loading="lazy" />
-          <figcaption>Detail of the hand-wound copper coils sitting in the 30-slot, 3D-printed stator housing.</figcaption>
-        </figure>
-        <figure class="gallery-item" role="listitem">
-          <img src="assets/phase-wires.jpg" alt="The central shaft and phase wires exiting the stator" loading="lazy" />
-          <figcaption>The three phase wires consolidated and exiting through the central shaft for controller integration.</figcaption>
-        </figure>
-      </div>
     </div>
   </section>
 
@@ -273,13 +250,42 @@
         <h2 class="section-title">Managing Magnetic Forces</h2>
       </div>
       <p>
-        The rotor consists of two halves that sandwich the stator. Each half houses 20 powerful N42 neodymium magnets, arrayed in alternating polarities (40 magnets total). The manufacturing tolerances of the outsourced 3D-printed housing meant that keeping these magnets safely in their slots against their own immense attractive forces was a serious mechanical challenge.
+        The rotor consists of two halves that sandwich the stator. Each half houses 20 powerful N42 neodymium magnets arrayed in alternating polarities, resulting in a 40-magnet system total. Getting all these magnets seated in an alternating N-S-N-S pattern without them snapping together requires extreme care.
       </p>
 
-      <figure class="img-callout img-callout--center" aria-label="Rotor half with magnets inserted">
-        <img src="assets/rotor-magnets.jpg" alt="Rotor half showing 20 N42 magnets" loading="lazy" />
-        <figcaption>One of the two rotor halves. Getting all 20 magnets seated in an alternating N-S-N-S pattern without them snapping together requires extreme care.</figcaption>
-      </figure>
+      <div class="gallery mt-4" role="list" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+        <figure class="gallery-item" role="listitem">
+          <img src="assets/rotor-magnets.jpg" alt="Inner view of the rotor half showing 20 N42 magnets..." loading="lazy" />
+          <figcaption><strong>Inner Face:</strong> The active side of a single rotor half, packed with 20 neodymium magnets facing the stator.</figcaption>
+        </figure>
+        <figure class="gallery-item" role="listitem">
+          <img src="assets/rotor-outer.jpg" alt="Outer view of the 3D printed rotor half..." loading="lazy" />
+          <figcaption><strong>Outer Face:</strong> The structural 3D-printed exterior of the rotor half before assembly.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container reading-col">
+      <div class="section-header">
+        <div class="section-tag">Assembly</div>
+        <h2 class="section-title">Full Construction & Wiring</h2>
+      </div>
+      <p>
+        The central stator utilizes a 30-slot, 3-phase triangular winding layout. This specific pattern ensures that each phase coil efficiently interacts with the passing magnetic fields of both rotor halves simultaneously, maximizing torque for the footprint.
+      </p>
+
+      <div class="gallery mt-4" role="list" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;">
+        <figure class="gallery-item" role="listitem">
+          <img src="assets/full-assembly-1.jpg" alt="General construction view of the full motor..." loading="lazy" />
+          <figcaption>General construction view of the fully assembled motor.</figcaption>
+        </figure>
+        <figure class="gallery-item" role="listitem">
+          <img src="assets/full-assembly-2.jpg" alt="Alternate view of the completed prototype assembly..." loading="lazy" />
+          <figcaption>The three phase wires exiting the central shaft, ready for controller integration.</figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 
