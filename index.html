@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vishal Bagade — Embedded Systems & EV Engineering</title>
+  <title>Vishal Bagade — Pilot & Systems Engineer</title>
   <meta name="author" content="Vishal Bagade" />
-  <meta name="description" content="Vishal Bagade — embedded systems engineer working on EV powertrain validation, firmware, and virtual HIL frameworks." />
+  <meta name="description" content="Vishal Bagade — pilot and systems engineer building high-voltage EV powertrain hardware, firmware, and virtual validation frameworks." />
   <meta name="robots" content="index, follow" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Vishal Bagade — Embedded Systems & EV Engineering" />
-  <meta property="og:description" content="Embedded systems engineer working on EV powertrain validation, firmware, and virtual HIL frameworks." />
+  <meta property="og:title" content="Vishal Bagade — Pilot & Systems Engineer" />
+  <meta property="og:description" content="Pilot and systems engineer building high-voltage EV powertrain hardware, firmware, and virtual validation frameworks." />
   <meta property="og:url" content="https://vishal.evovhil.com/" />
   <meta property="og:type" content="profile" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Vishal Bagade — Embedded Systems & EV Engineering" />
-  <meta name="twitter:description" content="Embedded systems engineer working on EV powertrain validation, firmware, and virtual HIL frameworks." />
+  <meta name="twitter:title" content="Vishal Bagade — Pilot & Systems Engineer" />
+  <meta name="twitter:description" content="Pilot and systems engineer building high-voltage EV powertrain hardware, firmware, and virtual validation frameworks." />
 
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   <link rel="canonical" href="https://vishal.evovhil.com/" />
@@ -25,21 +25,110 @@
   <link rel="stylesheet" href="./portfolio.css" />
 
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-EVS54RD7KM"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-EVS54RD7KM');
-</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVS54RD7KM"></script>
   <script>
-function trackEvent(name, params = {}) {
-  gtag('event', name, params);
-}
-</script>
-  <!-- GoatCounter (keep last) -->
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EVS54RD7KM');
+  </script>
+  <script>
+    function trackEvent(name, params = {}) {
+      gtag('event', name, params);
+    }
+  </script>
+  <!-- GoatCounter -->
   <script data-goatcounter="https://evo-vhil.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  <style>
+    /* ── PROFILE BLOCK ────────────────────────────────────────────
+       Scoped to this page. Extends portfolio.css — no overrides.
+    ─────────────────────────────────────────────────────────────── */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+
+    .profile-avatar-wrap {
+      position: sticky;
+      top: 5rem;
+    }
+
+    .profile-avatar {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      filter: grayscale(25%);
+      transition: filter 0.35s ease, border-color 0.35s ease;
+    }
+    .profile-avatar:hover {
+      filter: grayscale(0%);
+      border-color: var(--border-hi);
+    }
+
+    .profile-avatar-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-align: center;
+      margin-top: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .profile-body p {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text);
+      max-width: 66ch;
+    }
+
+    /* Small amber label that leads each paragraph */
+    .para-label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.4rem;
+      font-weight: 500;
+    }
+
+    .profile-goal {
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      border-left: 2px solid var(--cyan);
+      background: var(--cyan-dim);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--text);
+      line-height: 1.75;
+    }
+    .profile-goal strong { color: var(--cyan); }
+
+    @media (max-width: 820px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      .profile-avatar-wrap {
+        position: static;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 140px;
+        margin: 0 auto;
+      }
+    }
+  </style>
 </head>
 <body>
 <div class="scanline"></div>
@@ -56,7 +145,6 @@ function trackEvent(name, params = {}) {
     <div class="nav-links" id="navLinks">
       <a href="/" class="active">Home</a>
       <a href="#projects">Projects</a>
-      <a href="/about.html">About</a>
     </div>
   </div>
 </nav>
@@ -67,65 +155,83 @@ function trackEvent(name, params = {}) {
     <div class="hero-eyebrow">Embedded Systems · EV Powertrain · Virtual Validation</div>
     <h1 class="hero-title">
       Vishal Bagade<br>
-      <span>Engineer</span>
+      <span>Pilot &amp; Systems Engineer</span>
     </h1>
     <p class="hero-subtitle">
       Building full-stack validation infrastructure for high-voltage EV systems — from bare-metal firmware to Android Automotive integration.
     </p>
     <div class="btn-group">
-      <a href="#projects" class="btn btn-outline">View Projects →</a>
-      <a href="/about.html" class="btn btn-outline">About</a>
+      <a href="#projects" class="btn btn-outline" onclick="trackEvent('cta_projects')">View Projects →</a>
+      <a href="/about.html" class="btn btn-outline" onclick="trackEvent('cta_about')">About</a>
     </div>
   </div>
 </section>
 
-<!-- ── COMPETENCIES ── -->
-<section class="section" aria-label="Technical competencies">
+<!-- ── BACKGROUND & PHILOSOPHY ── -->
+<section class="section" aria-label="Background and philosophy">
   <div class="container">
+
     <div class="section-header">
-      <div class="section-tag">Stack</div>
-      <h2 class="section-title">Technical Competencies</h2>
+      <div class="section-tag">Background</div>
+      <h2 class="section-title">Background &amp; Philosophy</h2>
     </div>
 
-    <div class="competency-group">
+    <div class="profile-grid">
 
-      <div class="competency-cluster">
-        <div class="competency-label">Hardware</div>
-        <ul class="stack-list" aria-label="Hardware skills">
-          <li>High-Voltage EV Topology</li>
-          <li>Dual-Pack BMS Architecture</li>
-          <li>Contactor Control Logic</li>
-          <li>Precharge Circuits</li>
-          <li>CAN Bus / ISO 15118</li>
-          <li>ASIL-inspired Safety Design</li>
-        </ul>
+      <!-- Left: Avatar -->
+      <div class="profile-avatar-wrap">
+        <img
+          class="profile-avatar"
+          src="https://github.com/vishal0002.png"
+          alt="Vishal Bagade"
+          width="200"
+          height="200"
+          loading="lazy"
+        />
+        <p class="profile-avatar-label">
+          Vishal Bagade<br>
+          Pilot · Builder
+        </p>
       </div>
 
-      <div class="competency-cluster">
-        <div class="competency-label">Firmware</div>
-        <ul class="stack-list" aria-label="Firmware skills">
-          <li>Embedded C / C++</li>
-          <li>RTOS Workflows</li>
-          <li>Renode Simulation</li>
-          <li>Deterministic Fault Injection</li>
-          <li>State Machine Design</li>
-          <li>CAN Bridge Logic</li>
-        </ul>
-      </div>
+      <!-- Right: Story -->
+      <div class="profile-body">
 
-      <div class="competency-cluster">
-        <div class="competency-label">Systems</div>
-        <ul class="stack-list" aria-label="Systems skills">
-          <li>Android Automotive OS</li>
-          <li>Vendor-side HAL Daemons</li>
-          <li>Virtual HIL Frameworks</li>
-          <li>CI Fault Injection Pipelines</li>
-          <li>System-level Test Architecture</li>
-          <li>Linux / vSocket Networking</li>
-        </ul>
-      </div>
+        <p>
+          <strong class="para-label">The Mindset</strong>
+          Aviation demands strict procedural execution and absolute validation.
+          You do not test new systems while in the air; you validate them in a simulator first.
+          I bring this exact mindset to embedded systems and EV powertrain engineering.
+          My ultimate goal is to engineer a 300V custom electric motorcycle equipped with
+          CCS Type 2 fast charging from the ground up.
+        </p>
 
+        <p>
+          <strong class="para-label">The Strategy</strong>
+          Building a 76V physical powertrain taught me that debugging control logic on live,
+          high-current hardware is tedious and dangerous. To build a 300V system safely,
+          I realized I needed a way to test firmware without physical contactors.
+          That is why I built the EVO vHIL framework: to simulate high-voltage EV control
+          systems and validate firmware purely in software before it ever touches
+          physical hardware.
+        </p>
+
+        <p>
+          <strong class="para-label">Current Focus</strong>
+          I am currently expanding the EVO vHIL simulation architecture while simultaneously
+          engineering the physical hardware and bare-metal firmware for the custom 300V
+          Battery Management System (BMS).
+        </p>
+
+        <div class="profile-goal" role="note" aria-label="Long-term engineering goal">
+          <strong>End goal —</strong>
+          300V custom electric motorcycle · CCS Type 2 fast charging ·
+          full-stack hardware + firmware, designed and validated from scratch.
+        </div>
+
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -136,20 +242,27 @@ function trackEvent(name, params = {}) {
       <div class="section-tag">Work</div>
       <h2 class="section-title">Projects</h2>
       <p class="section-lead">
-        Engineering projects spanning embedded systems, virtual validation infrastructure, and automotive software integration.
+        Engineering projects spanning embedded systems, virtual validation infrastructure,
+        physical powertrain hardware, and automotive software integration.
       </p>
     </div>
 
     <div class="project-grid">
 
-      <a href="https://evovhil.com/" target="_blank" rel="noopener noreferrer" class="project-card" aria-label="EVO vHIL — Virtual HIL for EV Powertrain Validation">
+      <!-- 1. EVO vHIL -->
+      <a href="https://evovhil.com/" target="_blank" rel="noopener noreferrer"
+         class="project-card"
+         aria-label="EVO vHIL — Virtual HIL for EV Powertrain Validation"
+         onclick="trackEvent('project_click', { project: 'evo_vhil' })">
         <div class="project-card-top">
           <div class="project-status project-status--active">Active</div>
           <div class="project-card-icon">⚡</div>
         </div>
         <h3 class="project-card-title">EVO vHIL</h3>
         <p class="project-card-body">
-          Full-stack virtual Hardware-in-the-Loop framework for validating high-voltage EV powertrains. Spans production firmware, Android Automotive integration, and deterministic fault injection — without physical hardware.
+          Full-stack virtual Hardware-in-the-Loop framework for validating high-voltage EV
+          powertrains. Spans production firmware, Android Automotive integration, and
+          deterministic fault injection — without physical hardware.
         </p>
         <div class="project-card-stack">
           <span class="tech-tag">Renode</span>
@@ -160,14 +273,23 @@ function trackEvent(name, params = {}) {
         <div class="project-card-cta">View Live System →</div>
       </a>
 
-      <a href="/wsl2-socketcan/" class="project-card" aria-label="WSL2 SocketCAN vCAN Kernel">
+      <!-- 2. WSL2 SocketCAN -->
+      <a href="/wsl2-socketcan/"
+         class="project-card"
+         aria-label="WSL2 SocketCAN Custom Kernel"
+         onclick="trackEvent('project_click', { project: 'wsl2_socketcan' })">
         <div class="project-card-top">
-          <div class="project-status" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444;">🔥 Trending</div>
+          <div class="project-status"
+               style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#ef4444;">
+            🔥 Trending
+          </div>
           <div class="project-card-icon">🐧</div>
         </div>
         <h3 class="project-card-title">WSL2 SocketCAN Custom Kernel</h3>
         <p class="project-card-body">
-          A custom-compiled Linux kernel for WSL2 enabling native SocketCAN and vCAN interfaces. Built to facilitate virtual EV firmware testing without physical Linux hardware or USB adapters.
+          A custom-compiled Linux kernel for WSL2 enabling native SocketCAN and vCAN
+          interfaces — built to facilitate virtual EV firmware testing without physical
+          Linux hardware or USB adapters.
         </p>
         <div class="project-card-stack">
           <span class="tech-tag">Linux Kernel</span>
@@ -177,31 +299,66 @@ function trackEvent(name, params = {}) {
         <div class="project-card-cta">View Architecture →</div>
       </a>
 
-      <a href="/electric-bike-76v/" class="project-card" aria-label="76V Custom Electric Bike Build">
+      <!-- 3. EVO AFM-01-Alpha (NEW) -->
+      <a href="/evo-afm-01-alpha/"
+         class="project-card"
+         aria-label="EVO AFM-01-Alpha — Axial Flux Motor proof-of-concept"
+         onclick="trackEvent('project_click', { project: 'afm_01_alpha' })">
+        <div class="project-card-top">
+          <div class="project-status project-status--completed">Concept Validated</div>
+          <div class="project-card-icon">🧲</div>
+        </div>
+        <h3 class="project-card-title">EVO AFM-01-Alpha</h3>
+        <p class="project-card-body">
+          A physical axial flux motor proof-of-concept built to explore fundamental
+          electromagnetic principles, magnetic flux routing, and 3-phase triangular
+          winding topologies.
+        </p>
+        <div class="project-card-stack">
+          <span class="tech-tag">40× N42 Magnets</span>
+          <span class="tech-tag">30-Slot Stator</span>
+          <span class="tech-tag">Axial Flux</span>
+        </div>
+        <div class="project-card-cta">View Build Log →</div>
+      </a>
+
+      <!-- 4. 76V Custom E-Bike -->
+      <a href="/electric-bike-76v/"
+         class="project-card"
+         aria-label="76V Custom Electric Bike Build"
+         onclick="trackEvent('project_click', { project: '76v_bike' })">
         <div class="project-card-top">
           <div class="project-status project-status--completed">Completed</div>
           <div class="project-card-icon">🏍️</div>
         </div>
         <h3 class="project-card-title">76V Custom E-Bike</h3>
         <p class="project-card-body">
-          Ground-up engineering of a 3Kw Hub Motor, 76V electric bike with 75Ah Battery. 
+          Ground-up engineering of a 3kW hub motor, 76V electric bike with a custom-built
+          24S5P LiFePO4 pack (75Ah). The physical build that proved why virtual validation
+          had to come first.
         </p>
         <div class="project-card-stack">
-          <span class="tech-tag">Hardware</span>
-          <span class="tech-tag">Powertrain</span>
-          <span class="tech-tag">Low Voltage</span>
+          <span class="tech-tag">24S5P LiFePO4</span>
+          <span class="tech-tag">VESC 100V/200A</span>
+          <span class="tech-tag">JK BMS</span>
         </div>
         <div class="project-card-cta">View Build Log →</div>
       </a>
 
-      <a href="https://bms.evovhil.com/" target="_blank" rel="noopener noreferrer" class="project-card" aria-label="BMS Architecture — Battery Management System deep dive">
+      <!-- 5. BMS Architecture -->
+      <a href="https://bms.evovhil.com/" target="_blank" rel="noopener noreferrer"
+         class="project-card"
+         aria-label="BMS Architecture — Battery Management System deep dive"
+         onclick="trackEvent('project_click', { project: 'bms_arch' })">
         <div class="project-card-top">
           <div class="project-status project-status--wip">In Progress</div>
           <div class="project-card-icon">🔋</div>
         </div>
         <h3 class="project-card-title">BMS Architecture</h3>
         <p class="project-card-body">
-          Deep-dive into the EVO Battery Management System: real-time fault handling, dual-pack energy coordination, and safety-critical state transitions across the traction pack.
+          Deep-dive into the EVO Battery Management System: real-time fault handling,
+          dual-pack energy coordination, and safety-critical state transitions across
+          the traction pack.
         </p>
         <div class="project-card-stack">
           <span class="tech-tag">ISO 26262</span>
@@ -212,6 +369,7 @@ function trackEvent(name, params = {}) {
       </a>
 
     </div>
+  </div>
 </section>
 
 <!-- ── FOOTER ── -->
@@ -222,17 +380,20 @@ function trackEvent(name, params = {}) {
       <div class="footer-meta mt-1">Embedded Systems · EV Powertrain · Virtual Validation</div>
     </div>
     <nav class="footer-nav" aria-label="Footer navigation">
-      <a href="https://github.com/vishal0002" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="https://www.linkedin.com/in/vishal-bagade/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="https://x.com/VishalBagade121" target="_blank" rel="noopener noreferrer">X</a>
-      <a href="mailto:vishalbagade@gmail.com">Email</a>
-      <a href="/about.html">About</a>
+      <a href="https://github.com/vishal0002" target="_blank" rel="noopener noreferrer"
+         onclick="trackEvent('outbound_social', { platform: 'github' })">GitHub</a>
+      <a href="https://www.linkedin.com/in/vishal-bagade/" target="_blank" rel="noopener noreferrer"
+         onclick="trackEvent('outbound_social', { platform: 'linkedin' })">LinkedIn</a>
+      <a href="https://x.com/VishalBagade121" target="_blank" rel="noopener noreferrer"
+         onclick="trackEvent('outbound_social', { platform: 'x' })">X</a>
+      <a href="mailto:vishalbagade@gmail.com"
+         onclick="trackEvent('contact_click', { method: 'email_footer' })">Email</a>
+      
     </nav>
   </div>
 </footer>
 
 <script>
-// Hamburger nav toggle
 const navToggle = document.getElementById('navToggle');
 const navLinks  = document.getElementById('navLinks');
 if (navToggle && navLinks) {
