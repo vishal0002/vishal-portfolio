@@ -146,6 +146,7 @@
 .dash-stat-val--green  { color: var(--solar); }
 .dash-stat-val--solar  { color: var(--solar); }
 .dash-stat-val--cyan   { color: var(--ev-cyan); }
+.dash-stat-val--purple { color: var(--ev-purple); }
 .dash-stat-val--amber  { color: var(--amber); }
 
 /* Remaining CapEx — turns green when recovered */
