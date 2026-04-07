@@ -69,7 +69,9 @@
     <div class="telemetry">
       <div>Torque: <br><span id="txt-torque">0.00</span> Nm</div>
       <div>True Angle: <br><span id="txt-theta">0.00</span> rad</div>
-      <div style="margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+      </div>
+
+    <div style="margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
       <h3 style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 0.5rem;">LIVE LOGS & EXPORT</h3>
       
       <div id="log-terminal" style="background: #000; border: 1px solid #334155; padding: 0.5rem; height: 120px; overflow-y: scroll; font-family: monospace; font-size: 0.75rem; color: #10b981; margin-bottom: 0.5rem;">
@@ -130,6 +132,26 @@
         logTerminal.scrollTop = logTerminal.scrollHeight; // Auto-scroll to bottom
       }
 
+      // --- RECORD BUTTON LOGIC ---
+      document.getElementById('btn-record').addEventListener('click', (e) => {
+        if (!isRecording) {
+          isRecording = true;
+          recordedData = []; // Clear old data
+          recordedData.push(["Time_s", "True_Angle_rad", "Angular_Vel_rad_s", "Torque_Nm", "Est_Angle_rad"]);
+          e.target.innerText = "⏹ Stop Recording";
+          e.target.style.background = "#3b82f6";
+          document.getElementById('btn-download').style.display = "none";
+          logToTerminal("> Recording started...");
+        } else {
+          isRecording = false;
+          e.target.innerText = "⏺ Start Recording";
+          e.target.style.background = "#ef4444";
+          document.getElementById('btn-download').style.display = "block";
+          logToTerminal(`> Recording stopped. ${recordedData.length - 1} frames captured.`);
+        }
+      });
+      // ----------------------------
+      
       document.getElementById('btn-download').addEventListener('click', () => {
         let csvContent = "data:text/csv;charset=utf-8," + recordedData.map(e => e.join(",")).join("\n");
         let encodedUri = encodeURI(csvContent);
