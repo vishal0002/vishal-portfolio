@@ -75,32 +75,47 @@
       requestAnimationFrame(loop);
     });
 
+    // --- REALISTIC PHYSICAL CONSTANTS ---
+    const g = 9.81;      // Gravity (m/s^2)
+    const L = 0.5;       // Length of the rod (m)
+    const m = 0.2;       // Mass of the weight (kg)
+    const J = m * L * L; // Moment of Inertia
+    const b = 0.01;      // Friction/Damping coefficient
+
     function loop() {
       // 1. Get UI Inputs
       const g_noise = parseFloat(document.getElementById('gyro_noise').value);
       const a_noise = parseFloat(document.getElementById('accel_noise').value);
-      document.getElementById('v-gyro').innerText = g_noise;
-      document.getElementById('v-accel').innerText = a_noise;
 
-      // 2. Generate "Noisy" Sensors
-      const gyro_meas = omega + (randn() * g_noise);
+      // 2. Generate Noisy Sensors (Adding a small bias to the gyro for realism)
+      const gyro_meas = omega + (randn() * g_noise) + 0.001; 
       const accel_meas = theta + (randn() * a_noise);
 
-      // 3. Update all 3 WASM Filters!
+      // 3. Update all 3 WASM Filters
       est_k = K._filter_step(gyro_meas, accel_meas, dt);
       est_c = C._filter_step(gyro_meas, accel_meas, dt);
       est_b = B._filter_step(gyro_meas, accel_meas, dt);
 
-      // 4. PID Control (Feed the user-selected filter back into the motor)
+      // 4. PID CONTROL
       const selected = document.getElementById('activeFilter').value;
       let feedback_theta = (selected === 'kalman') ? est_k : (selected === 'comp' ? est_c : est_b);
       
-      const torque = -(20 * feedback_theta + 2 * (feedback_theta/dt)); // Simple PD
-      const alpha_phys = Math.max(-0.5, Math.min(0.5, torque)) / 0.005;
+      // Target is 0 (Upright). We use theta and the true omega for the D-term
+      const control_torque = -(30.0 * feedback_theta + 2.5 * omega); 
+      
+      // --- THE PLANT DYNAMICS (With Gravity) ---
+      // Torque = J * alpha -> alpha = (ControlTorque + GravityTorque - Damping) / J
+      const gravity_torque = m * g * (L/2) * Math.sin(theta);
+      const damping_torque = b * omega;
+      
+      const total_torque = control_torque + gravity_torque - damping_torque;
+      const alpha_phys = total_torque / J;
+
+      // Integration
       omega += alpha_phys * dt;
       theta += omega * dt;
 
-      // 5. Draw
+      // 5. Draw and Telemetry
       draw();
       updateTelemetry();
       requestAnimationFrame(loop);
