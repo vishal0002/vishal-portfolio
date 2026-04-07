@@ -67,27 +67,70 @@
       ← Back to Projects
     </a>
     <h1 class="project-header-title">Solar &amp; EV Fleet Dashboard</h1>
-    <dl class="project-meta">
-      <div class="project-meta-item">
-        <dt>Plant</dt>
-        <dd class="mono text-dim">5.1 kW Rooftop · Jan 2023</dd>
+    <div style="display: flex; flex-wrap: wrap; gap: 2.5rem; margin-top: 1.5rem; align-items: stretch;">
+      
+      <dl class="project-meta" style="margin: 0; flex: 1; min-width: 250px;">
+        <div class="project-meta-item">
+          <dt>Plant</dt>
+          <dd class="mono text-dim">5.1 kW Rooftop · Jan 2023</dd>
+        </div>
+        <div class="project-meta-item">
+          <dt>Fleet</dt>
+          <dd>
+            <span class="tech-tag">Tiago.ev</span>
+            <span class="tech-tag">Ather 450X</span>
+          </dd>
+        </div>
+        <div class="project-meta-item">
+          <dt>CapEx</dt>
+          <dd class="mono text-dim">₹17,45,000</dd>
+        </div>
+        <div class="project-meta-item">
+          <dt>Status</dt>
+          <dd><span class="project-status project-status--active">Live</span></dd>
+        </div>
+      </dl>
+
+      <div style="flex: 1.5; min-width: 320px; background: rgba(0, 255, 170, 0.05); border: 1px solid var(--solar); border-radius: 8px; padding: 1.5rem; position: relative; overflow: hidden; box-shadow: 0 0 25px rgba(0,255,170,0.08); display: flex; flex-direction: column; justify-content: center;">
+        
+        <div style="position: absolute; top: -50px; right: -50px; width: 120px; height: 120px; background: var(--solar); filter: blur(80px); opacity: 0.4; pointer-events: none;"></div>
+        
+        <h2 style="color: var(--solar); font-size: 1.15rem; margin-top: 0; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; font-family: var(--head); text-transform: uppercase; letter-spacing: 0.05em;">
+          <span style="font-size: 1.4rem;">⚡</span> 3-Year Solar + EV Summary
+        </h2>
+        
+        <div style="display: grid; grid-template-columns: 1fr; gap: 0.6rem; font-family: var(--mono); color: var(--text-hi); font-size: 0.85rem; margin-bottom: 1rem;">
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border); padding-bottom: 0.4rem;">
+            <span style="color: var(--text-dim);">Total solar generation:</span>
+            <strong id="hero-solar-gen" style="color: var(--text-hi);">— kWh</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border); padding-bottom: 0.4rem;">
+            <span style="color: var(--text-dim);">EV energy consumption:</span>
+            <strong id="hero-ev-kwh" style="color: var(--text-hi);">— kWh</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border); padding-bottom: 0.4rem;">
+            <span style="color: var(--text-dim);">Cost per km (EV avg):</span>
+            <strong style="color: var(--ev-cyan);">₹1.33</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border); padding-bottom: 0.4rem;">
+            <span style="color: var(--text-dim);">Petrol equivalent:</span>
+            <strong style="color: #ef4444;">₹8.33</strong>
+          </div>
+        </div>
+
+        <div style="background: rgba(0,0,0,0.4); padding: 0.8rem 1rem; border-radius: 6px; border-left: 3px solid var(--solar);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.3rem;">
+            <span style="font-family: var(--head); font-weight: 600; color: var(--text-dim); font-size: 0.95rem;">Net savings:</span>
+            <strong style="font-family: var(--head); font-size: 1.4rem; color: var(--solar);" id="hero-net-savings">₹—</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: var(--head); font-weight: 600; color: var(--text-dim); font-size: 0.95rem;">Solar covers:</span>
+            <strong style="font-family: var(--head); font-size: 1.1rem; color: var(--ev-cyan);" id="hero-solar-coverage">—% of EV usage</strong>
+          </div>
+        </div>
       </div>
-      <div class="project-meta-item">
-        <dt>Fleet</dt>
-        <dd>
-          <span class="tech-tag">Tiago.ev</span>
-          <span class="tech-tag">Ather 450X</span>
-        </dd>
-      </div>
-      <div class="project-meta-item">
-        <dt>CapEx</dt>
-        <dd class="mono text-dim">₹17,45,000</dd>
-      </div>
-      <div class="project-meta-item">
-        <dt>Status</dt>
-        <dd><span class="project-status project-status--active">Live</span></dd>
-      </div>
-    </dl>
+
+    </div>
   </div>
 </header>
 
