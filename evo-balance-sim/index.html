@@ -40,11 +40,16 @@
 
     <button onclick="location.reload()">Reset System</button>
 
-    <div id="telemetry" style="margin-top:20px; font-size: 0.8rem; border-top:1px solid #333; padding-top:10px;">
-       Error (Kalman): <span id="err-k" class="k">0.00</span><br>
-       Error (Comp):   <span id="err-c" class="c">0.00</span><br>
-       Error (Particle): <span id="err-p" class="p">0.00</span>
+    <div class="panel">
+  <div style="margin-top:20px; border-top:1px solid #333; padding-top:10px;">
+    <button id="btn-record" style="background: #ef4444; color: white;">⏺ Start Mission Log</button>
+    <button id="btn-download" style="background: #10b981; color: white; display: none; margin-top: 5px;">⬇ Export CSV</button>
+    
+    <div id="log-terminal" style="background: #000; color: #10b981; font-size: 0.7rem; height: 150px; overflow-y: scroll; margin-top: 10px; padding: 5px; border: 1px solid #111;">
+      > System Standby...
     </div>
+  </div>
+</div>
   </div>
 
   <canvas id="simCanvas" width="600" height="600"></canvas>
@@ -54,6 +59,41 @@
   <script src="cpp_src/bayes.js"></script>
 
   <script>
+
+    // Logging State
+let isRecording = false;
+let missionData = [];
+let frameCount = 0;
+const terminal = document.getElementById('log-terminal');
+
+function log(msg) {
+    terminal.innerHTML += `> ${msg}<br>`;
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
+document.getElementById('btn-record').onclick = (e) => {
+    isRecording = !isRecording;
+    if (isRecording) {
+        missionData = [["Time", "True_Theta", "Kalman_Est", "Comp_Est", "Particle_Est", "Torque"]];
+        e.target.innerText = "⏹ Stop & Save";
+        log("Recording high-speed telemetry...");
+    } else {
+        e.target.innerText = "⏺ Start Mission Log";
+        document.getElementById('btn-download').style.display = "block";
+        log(`Captured ${missionData.length} samples.`);
+    }
+};
+
+document.getElementById('btn-download').onclick = () => {
+    const csv = missionData.map(row => row.join(",")).join("\n");
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `fusion_showdown_${Date.now()}.csv`;
+    a.click();
+};
+    
     let K, C, B;
     const canvas = document.getElementById('simCanvas');
     const ctx = canvas.getContext('2d');
@@ -115,6 +155,25 @@
       omega += alpha_phys * dt;
       theta += omega * dt;
 
+      frameCount++;
+
+// Capture data at 60Hz
+if (isRecording) {
+    missionData.push([
+        (frameCount * dt).toFixed(3),
+        theta.toFixed(5),
+        est_k.toFixed(5),
+        est_c.toFixed(5),
+        est_b.toFixed(5),
+        total_torque.toFixed(5)
+    ]);
+}
+
+// Throttled Terminal Update (Every 0.5 seconds)
+if (frameCount % 30 === 0) {
+    log(`T:${(frameCount*dt).toFixed(1)}s | K_Err:${(theta-est_k).toFixed(4)}`);
+}
+      
       // 5. Draw and Telemetry
       draw();
       updateTelemetry();
