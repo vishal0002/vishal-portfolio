@@ -112,6 +112,7 @@ document.getElementById('btn-download').onclick = () => {
       BayesModule(wasmConfig)
     ]).then(modules => {
       [K, C, B] = modules;
+      log("All WASM Filters Online. Loop starting...");
       requestAnimationFrame(loop);
     });
 
@@ -205,10 +206,15 @@ if (frameCount % 30 === 0) {
     }
 
     function updateTelemetry() {
-      document.getElementById('err-k').innerText = Math.abs(theta - est_k).toFixed(4);
-      document.getElementById('err-c').innerText = Math.abs(theta - est_c).toFixed(4);
-      document.getElementById('err-p').innerText = Math.abs(theta - est_b).toFixed(4);
-    }
+  const ek = document.getElementById('err-k');
+  const ec = document.getElementById('err-c');
+  const ep = document.getElementById('err-p');
+
+  // Only update if the UI elements actually exist
+  if (ek) ek.innerText = Math.abs(theta - est_k).toFixed(4);
+  if (ec) ec.innerText = Math.abs(theta - est_c).toFixed(4);
+  if (ep) ep.innerText = Math.abs(theta - est_b).toFixed(4);
+}
 
     function randn() {
       let u = 0, v = 0;
