@@ -57,8 +57,8 @@ function formatNum(n) {
 
 let solarTotalSaved = 0;   // Sum of all solar.inr_saved from JSON
 let solarTotalKwh   = 0;   // Sum of all solar.kwh_generated from JSON
-let tiagoDrivenKm   = 0;
-let atherDrivenKm   = 0;
+let tiagoDrivenKm   = 36000;
+let atherDrivenKm   = 15000;
 let solarChart      = null;
 
 /* ─────────────────────────────────────────────────────────────
