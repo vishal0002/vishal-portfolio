@@ -136,7 +136,7 @@ function recalculate() {
   let solarCoveragePct = 0;
   if (totalEvKwhUsed > 0) {
       // Calculate how much of the EV consumption was covered by the total solar generated
-      solarCoveragePct = = (solarTotalKwh / totalEvKwhUsed) * 100;
+      solarCoveragePct =  (solarTotalKwh / totalEvKwhUsed) * 100;
   } else if (solarTotalKwh > 0) {
       solarCoveragePct = 100; // If no km driven but solar exists, it covers 100%
   }
