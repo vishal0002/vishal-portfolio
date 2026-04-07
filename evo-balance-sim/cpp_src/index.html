@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WASM Control Sim — Vishal Bagade</title>
+  <style>
+    /* Inheriting your dark scanline aesthetic */
+    body {
+      background-color: #050810;
+      color: #e2e8f0;
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0; padding: 2rem;
+      display: flex; gap: 2rem;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .panel {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 8px;
+      padding: 1.5rem;
+      width: 350px;
+    }
+    h2 { color: #00d4ff; margin-top: 0; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px;}
+    label { display: block; margin-top: 1rem; font-size: 0.9rem; color: #94a3b8; }
+    input[type=range] { width: 100%; margin-top: 0.5rem; accent-color: #00d4ff; }
+    canvas {
+      background: #000;
+      border: 1px solid rgba(0, 212, 255, 0.4);
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+    }
+    .telemetry {
+      display: flex; justify-content: space-between; margin-top: 1rem;
+      font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem;
+    }
+    .telemetry span { color: #00d4ff; font-weight: bold; }
+    button {
+      margin-top: 1.5rem; width: 100%; padding: 0.75rem;
+      background: #00d4ff; color: #000; border: none; font-weight: bold;
+      cursor: pointer; border-radius: 4px; text-transform: uppercase;
+    }
+    button:hover { background: #20e5ff; }
+  </style>
+</head>
+<body>
+
+  <div class="panel">
+    <h2>Control Sandbox</h2>
+    
+    <label>Kp (Proportional): <span id="val-kp">20</span></label>
+    <input type="range" id="Kp" min="0" max="50" step="0.5" value="20">
+    
+    <label>Ki (Integral): <span id="val-ki">5</span></label>
+    <input type="range" id="Ki" min="0" max="20" step="0.5" value="5">
+    
+    <label>Kd (Derivative): <span id="val-kd">2</span></label>
+    <input type="range" id="Kd" min="0" max="10" step="0.1" value="2">
+
+    <label>Gyro Noise (Var): <span id="val-gyro">0.005</span></label>
+    <input type="range" id="gyro_noise" min="0" max="0.05" step="0.001" value="0.005">
+
+    <label>Accel Noise (Var): <span id="val-accel">0.01</span></label>
+    <input type="range" id="accel_noise" min="0" max="0.1" step="0.001" value="0.01">
+
+    <button id="btn-reset">Reset Simulation</button>
+
+    <div class="telemetry">
+      <div>Torque: <br><span id="txt-torque">0.00</span> Nm</div>
+      <div>True Angle: <br><span id="txt-theta">0.00</span> rad</div>
+    </div>
+  </div>
+
+  <canvas id="simCanvas" width="500" height="500"></canvas>
+
+  <script src="sim.js"></script>
+  
+  <script>
+    // --- Box-Muller Transform for Gaussian Noise ---
+    function randn() {
+      let u = 0, v = 0;
+      while(u === 0) u = Math.random();
+      while(v === 0) v = Math.random();
+      return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    }
+
+    // --- WASM Initialization & Game Loop ---
+    // Emscripten fires this when sim.wasm is fully loaded into memory
+    Module.onRuntimeInitialized = function() {
+      
+      // 1. Allocate memory in C++ for our output pointers (8 bytes each for 'double')
+      const ptr_theta = Module._malloc(8);
+      const ptr_omega = Module._malloc(8);
+      const ptr_torque = Module._malloc(8);
+      const ptr_theta_est = Module._malloc(8);
+
+      // 2. Wrap our C++ functions so they are easy to call in JS
+      const balance_step = Module.cwrap('balance_step', null, 
+        ['number','number','number','number','number','number','number','number','number','number']
+      );
+      const balance_reset = Module.cwrap('balance_reset', null, []);
+
+      // 3. UI Hooks
+      const canvas = document.getElementById("simCanvas");
+      const ctx = canvas.getContext("2d");
+      let lastTime = performance.now();
+
+      // Ensure initial state matches the C++ struct
+      Module.setValue(ptr_theta, 1.0, 'double');
+      Module.setValue(ptr_omega, 0.0, 'double');
+
+      document.getElementById('btn-reset').addEventListener('click', () => {
+        balance_reset(); // Call the C++ reset
+        Module.setValue(ptr_theta, 1.0, 'double');
+        Module.setValue(ptr_omega, 0.0, 'double');
+      });
+
+      // Update Slider Text Displays
+      ['Kp', 'Ki', 'Kd', 'gyro_noise', 'accel_noise'].forEach(id => {
+        document.getElementById(id).addEventListener('input', (e) => {
+          document.getElementById('val-' + id.split('_')[0].toLowerCase()).innerText = e.target.value;
+        });
+      });
+
+      // 4. The Continuous Render Loop (60fps)
+      function loop() {
+        // Calculate dynamic delta time
+        let now = performance.now();
+        let dt = (now - lastTime) / 1000.0;
+        lastTime = now;
+        if (dt > 0.1) dt = 0.016; // Prevent physics explosions if you switch tabs
+
+        // Read Inputs
+        const Kp = parseFloat(document.getElementById('Kp').value);
+        const Ki = parseFloat(document.getElementById('Ki').value);
+        const Kd = parseFloat(document.getElementById('Kd').value);
+        const gyro_noise = parseFloat(document.getElementById('gyro_noise').value);
+        const accel_noise = parseFloat(document.getElementById('accel_noise').value);
+
+        // Read PREVIOUS frame's state to generate current sensor measurements
+        const prev_theta = Module.getValue(ptr_theta, 'double');
+        const prev_omega = Module.getValue(ptr_omega, 'double');
+        
+        // Add Sensor Noise
+        const gyro_meas = prev_omega + 0.005 + (gyro_noise * randn());
+        const accel_meas = prev_theta + (accel_noise * randn());
+
+        // --- EXECUTE WEBASSEMBLY BINARY ---
+        balance_step(Kp, Ki, Kd, gyro_meas, accel_meas, dt, ptr_theta, ptr_omega, ptr_torque, ptr_theta_est);
+
+        // Read the newly calculated values from C++ memory
+        const current_theta = Module.getValue(ptr_theta, 'double');
+        const current_torque = Module.getValue(ptr_torque, 'double');
+
+        // Update UI Telemetry
+        document.getElementById('txt-torque').innerText = current_torque.toFixed(3);
+        document.getElementById('txt-theta').innerText = current_theta.toFixed(3);
+
+        // --- DRAW THE ROBOT ---
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.translate(canvas.width / 2, canvas.height / 2 + 100); // Anchor at bottom center
+        
+        // Draw Wheel
+        ctx.beginPath();
+        ctx.arc(0, 0, 30, 0, Math.PI * 2);
+        ctx.fillStyle = '#1e293b';
+        ctx.fill();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#00d4ff';
+        ctx.stroke();
+
+        // Draw Pendulum Arm (Rotated by Theta)
+        ctx.rotate(current_theta);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -200); // Stick length
+        ctx.lineWidth = 8;
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineCap = 'round';
+        ctx.stroke();
+        
+        // Draw Mass at top
+        ctx.beginPath();
+        ctx.arc(0, -200, 20, 0, Math.PI * 2);
+        ctx.fillStyle = '#ef4444';
+        ctx.fill();
+
+        ctx.restore();
+
+        // Call next frame
+        requestAnimationFrame(loop);
+      }
+
+      // Start the loop
+      requestAnimationFrame(loop);
+    };
+  </script>
+</body>
+</html>
