@@ -9,7 +9,7 @@
 
 const CONFIG = {
   // Path to JSON data file (relative to page URL)
-  JSON_PATH: '/ev-dashboard/assets/savings_state.json',
+  JSON_PATH: './assets/savings_state.json',
 
   // Total CapEx of the solar installation (INR)
   CAPEX_TOTAL: 385000,
