@@ -1,2 +1,866 @@
 [
+  {
+    "period": "2023-01-01",
+    "solar": {
+      "kwh_generated": 483.4,
+      "inr_saved": 5800.8
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5800.8
+    }
+  },
+  {
+    "period": "2023-02-01",
+    "solar": {
+      "kwh_generated": 593.7,
+      "inr_saved": 7124.4
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 7124.4
+    }
+  },
+  {
+    "period": "2023-03-01",
+    "solar": {
+      "kwh_generated": 696.6,
+      "inr_saved": 8359.2
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 8359.2
+    }
+  },
+  {
+    "period": "2023-04-01",
+    "solar": {
+      "kwh_generated": 677.2,
+      "inr_saved": 8126.4
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 8126.4
+    }
+  },
+  {
+    "period": "2023-05-01",
+    "solar": {
+      "kwh_generated": 705.0,
+      "inr_saved": 8460.0
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 8460.0
+    }
+  },
+  {
+    "period": "2023-06-01",
+    "solar": {
+      "kwh_generated": 617.6,
+      "inr_saved": 7411.2
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 7411.2
+    }
+  },
+  {
+    "period": "2023-07-01",
+    "solar": {
+      "kwh_generated": 399.6,
+      "inr_saved": 4795.2
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 4795.2
+    }
+  },
+  {
+    "period": "2023-08-01",
+    "solar": {
+      "kwh_generated": 478.9,
+      "inr_saved": 5746.8
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5746.8
+    }
+  },
+  {
+    "period": "2023-09-01",
+    "solar": {
+      "kwh_generated": 439.9,
+      "inr_saved": 5278.8
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5278.8
+    }
+  },
+  {
+    "period": "2023-10-01",
+    "solar": {
+      "kwh_generated": 547.1,
+      "inr_saved": 6565.2
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 6565.2
+    }
+  },
+  {
+    "period": "2023-11-01",
+    "solar": {
+      "kwh_generated": 448.1,
+      "inr_saved": 5377.2
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5377.2
+    }
+  },
+  {
+    "period": "2023-12-01",
+    "solar": {
+      "kwh_generated": 438.3,
+      "inr_saved": 5259.6
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5259.6
+    }
+  },
+  {
+    "period": "2024-01-01",
+    "solar": {
+      "kwh_generated": 483.3,
+      "inr_saved": 5799.6
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5799.6
+    }
+  },
+  {
+    "period": "2024-02-01",
+    "solar": {
+      "kwh_generated": 447.1,
+      "inr_saved": 5365.2
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5365.2
+    }
+  },
+  {
+    "period": "2024-03-01",
+    "solar": {
+      "kwh_generated": 555.2,
+      "inr_saved": 6662.4
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 6662.4
+    }
+  },
+  {
+    "period": "2024-04-01",
+    "solar": {
+      "kwh_generated": 566.3,
+      "inr_saved": 6795.6
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 6795.6
+    }
+  },
+  {
+    "period": "2024-05-01",
+    "solar": {
+      "kwh_generated": 610.1,
+      "inr_saved": 7321.2
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 7321.2
+    }
+  },
+  {
+    "period": "2024-06-01",
+    "solar": {
+      "kwh_generated": 454.5,
+      "inr_saved": 5454.0
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5454.0
+    }
+  },
+  {
+    "period": "2024-07-01",
+    "solar": {
+      "kwh_generated": 348.1,
+      "inr_saved": 4177.2
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 4177.2
+    }
+  },
+  {
+    "period": "2024-08-01",
+    "solar": {
+      "kwh_generated": 413.0,
+      "inr_saved": 4956.0
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 4956.0
+    }
+  },
+  {
+    "period": "2024-09-01",
+    "solar": {
+      "kwh_generated": 446.2,
+      "inr_saved": 5354.4
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5354.4
+    }
+  },
+  {
+    "period": "2024-10-01",
+    "solar": {
+      "kwh_generated": 522.5,
+      "inr_saved": 6270.0
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 6270.0
+    }
+  },
+  {
+    "period": "2024-11-01",
+    "solar": {
+      "kwh_generated": 451.7,
+      "inr_saved": 5420.4
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5420.4
+    }
+  },
+  {
+    "period": "2024-12-01",
+    "solar": {
+      "kwh_generated": 428.4,
+      "inr_saved": 5140.8
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5140.8
+    }
+  },
+  {
+    "period": "2025-01-01",
+    "solar": {
+      "kwh_generated": 445.6,
+      "inr_saved": 5347.2
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5347.2
+    }
+  },
+  {
+    "period": "2025-02-01",
+    "solar": {
+      "kwh_generated": 506.0,
+      "inr_saved": 6072.0
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 6072.0
+    }
+  },
+  {
+    "period": "2025-03-01",
+    "solar": {
+      "kwh_generated": 611.6,
+      "inr_saved": 7339.2
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 7339.2
+    }
+  },
+  {
+    "period": "2025-04-01",
+    "solar": {
+      "kwh_generated": 600.3,
+      "inr_saved": 7203.6
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 7203.6
+    }
+  },
+  {
+    "period": "2025-05-01",
+    "solar": {
+      "kwh_generated": 490.1,
+      "inr_saved": 5881.2
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5881.2
+    }
+  },
+  {
+    "period": "2025-06-01",
+    "solar": {
+      "kwh_generated": 424.4,
+      "inr_saved": 5092.8
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5092.8
+    }
+  },
+  {
+    "period": "2025-07-01",
+    "solar": {
+      "kwh_generated": 363.8,
+      "inr_saved": 4365.6
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 4365.6
+    }
+  },
+  {
+    "period": "2025-08-01",
+    "solar": {
+      "kwh_generated": 363.0,
+      "inr_saved": 4356.0
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 4356.0
+    }
+  },
+  {
+    "period": "2025-09-01",
+    "solar": {
+      "kwh_generated": 345.8,
+      "inr_saved": 4149.6
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 4149.6
+    }
+  },
+  {
+    "period": "2025-10-01",
+    "solar": {
+      "kwh_generated": 512.7,
+      "inr_saved": 6152.4
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 6152.4
+    }
+  },
+  {
+    "period": "2025-11-01",
+    "solar": {
+      "kwh_generated": 469.6,
+      "inr_saved": 5635.2
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 5635.2
+    }
+  },
+  {
+    "period": "2025-12-01",
+    "solar": {
+      "kwh_generated": 541.1,
+      "inr_saved": 6493.2
+    },
+    "ev1_tiago": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "ev2_ather": {
+      "kwh_consumed": 0,
+      "km_driven": 0,
+      "ice_equivalent_cost": 0,
+      "ev_charging_cost": 0,
+      "net_savings": 0
+    },
+    "aggregates": {
+      "total_daily_savings": 6493.2
+    }
+  }
 ]
