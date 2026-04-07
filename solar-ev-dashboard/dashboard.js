@@ -97,6 +97,20 @@ function recalculate() {
 
   const pctEl = document.getElementById('capex-pct');
   pctEl.textContent = pct.toFixed(1) + '%';
+
+  // ── Individual Asset Progress Bars ────────────────────────
+  const pctSolar = Math.min((solarTotalSaved / 385000) * 100, 100);
+  const pctTiago = Math.min((tiagSavings / 1200000) * 100, 100);
+  const pctAther = Math.min((atherSavings / 160000) * 100, 100);
+
+  const progSolar = document.getElementById('prog-solar');
+  if (progSolar) progSolar.style.width = pctSolar.toFixed(1) + '%';
+
+  const progTiago = document.getElementById('prog-tiago');
+  if (progTiago) progTiago.style.width = pctTiago.toFixed(1) + '%';
+
+  const progAther = document.getElementById('prog-ather');
+  if (progAther) progAther.style.width = pctAther.toFixed(1) + '%';
 }
 
 /* ─────────────────────────────────────────────────────────────
