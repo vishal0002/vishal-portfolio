@@ -92,7 +92,32 @@
 </header>
 
 <main id="dashboard-main">
+<section class="section" aria-label="Case Study Context" style="padding-bottom: 1rem;">
+    <div class="container reading-col">
+      
+      <h2 style="font-size: clamp(1.8rem, 4vw, 2.5rem); line-height: 1.2; margin-bottom: 1rem; color: var(--text-hi);">
+        3+ Years of Solar & EV Ecosystem: <br>
+        <span style="color: var(--solar);">The Real-World ROI</span>
+      </h2>
+      <p class="section-lead" style="font-size: 1.1rem; color: var(--text-dim); margin-bottom: 2.5rem; border-left: 3px solid var(--solar); padding-left: 15px;">
+        Based on real rooftop solar generation and daily EV usage via a fully automated data pipeline — not simulated projections.
+      </p>
 
+      <h3 style="margin-top: 2rem; margin-bottom: 0.75rem; color: var(--text-hi); font-size: 1.4rem;">The Problem</h3>
+      <p style="margin-bottom: 2rem; line-height: 1.7; color: var(--text-dim);">
+        Can a home solar setup actually power an EV fleet reliably and economically? Most discussions around the "Solar + EV" ecosystem are highly theoretical, relying on manufacturer claims and idealized weather. I didn't want to guess. I wanted to measure it in the real world over years of actual use to prove the financial model.
+      </p>
+
+      <h3 style="margin-bottom: 0.75rem; color: var(--text-hi); font-size: 1.4rem;">The Setup & Pipeline</h3>
+      <ul style="margin-bottom: 1rem; line-height: 1.7; color: var(--text-dim); padding-left: 1.2rem;">
+        <li style="margin-bottom: 0.5rem;"><strong>Solar System:</strong> 5.1 kW Rooftop Plant (Commissioned Jan 2023).</li>
+        <li style="margin-bottom: 0.5rem;"><strong>The Fleet:</strong> Tata Tiago.ev (Car) & Ather 450X (Scooter).</li>
+        <li style="margin-bottom: 0.5rem;"><strong>Time Range:</strong> 3+ Years of continuous telemetry.</li>
+        <li style="margin-bottom: 0.5rem;"><strong>The Pipeline:</strong> 100% automated zero-touch ingestion. Inverter reports are automatically emailed, parsed by a Google Apps Script, and pushed directly to this dashboard's GitHub repository.</li>
+      </ul>
+
+    </div>
+  </section>
   <!-- ═══════════════════════════════════════
        ZONE 1 — ROI COMMAND CENTRE (top stats)
   ══════════════════════════════════════════ -->
@@ -301,7 +326,23 @@
 
     </div>
   </section>
+<section class="section" aria-label="Key Insights & Conclusion" style="padding-top: 1rem; padding-bottom: 1rem;">
+    <div class="container reading-col">
+      
+      <h3 style="margin-bottom: 1rem; color: var(--text-hi); font-size: 1.4rem;">Key Insights</h3>
+      <ul style="margin-bottom: 2.5rem; line-height: 1.7; color: var(--text-dim); padding-left: 1.2rem;">
+        <li style="margin-bottom: 0.8rem;"><strong>The Cost Collapse:</strong> By offsetting grid tariffs (₹12/kWh), the effective cost to drive dropped from an ICE equivalent of ~₹8.33/km to virtually zero.</li>
+        <li style="margin-bottom: 0.8rem;"><strong>Seasonal Resilience:</strong> While monsoon months see a drop in generation, the surplus generated during peak summer months completely subsidizes the deficit over an annualized cycle.</li>
+        <li style="margin-bottom: 0.8rem;"><strong>Automated Intelligence:</strong> Building a resilient data pipeline proves that tracking long-term financial ROI doesn't require manual spreadsheet upkeep—it can run entirely hands-free in the background.</li>
+      </ul>
 
+      <h3 style="margin-bottom: 1rem; color: var(--text-hi); font-size: 1.4rem;">Conclusion</h3>
+      <p style="margin-bottom: 1.5rem; line-height: 1.7; color: var(--text-dim);">
+        The verdict is in the data. Combining a rooftop solar plant with an electric vehicle fleet isn't just environmentally viable—it is an aggressive financial advantage. The biggest lesson from 3+ years of telemetry? <strong style="color: var(--text-hi);">Consistency beats peak output.</strong> You don't need perfect sun every day to make the math work; you just need a system sized correctly for your baseline usage. Over time, the economic strength of this ecosystem becomes impossible to ignore.
+      </p>
+      
+    </div>
+  </section>
   <!-- ═══════════════════════════════════════
        ZONE 4 — RAW DATA TABLE (collapsible)
   ══════════════════════════════════════════ -->
