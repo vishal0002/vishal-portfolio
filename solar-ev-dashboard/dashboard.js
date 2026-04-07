@@ -62,7 +62,7 @@ let atherDrivenKm   = 0;
 let solarChart      = null;
 
 /* ─────────────────────────────────────────────────────────────
-   ROI ENGINE — called any time a value changes
+   ROI ENGINE — called any time a value changes or data loads
 ───────────────────────────────────────────────────────────── */
 
 function recalculate() {
@@ -73,32 +73,39 @@ function recalculate() {
   const remaining    = CONFIG.CAPEX_TOTAL - grandTotal;
   const pct          = Math.min((grandTotal / CONFIG.CAPEX_TOTAL) * 100, 100);
 
-  // ── Update DOM ────────────────────────────────────────────
-
-  // Zone 1: Top Command Center Grid
+  // ── 1. Update Zone 1 (Top Command Center) ─────────────────
   document.getElementById('stat-grand-total').textContent = formatINR(grandTotal);
   document.getElementById('stat-solar-total').textContent = formatINR(solarTotalSaved);
   document.getElementById('stat-solar-kwh').textContent   = `${formatNum(solarTotalKwh)} kWh generated`;
-  
+
   const tiagoTop = document.getElementById('tiago-savings-top');
   if (tiagoTop) tiagoTop.textContent = formatINR(tiagSavings);
-  
+
   const atherTop = document.getElementById('ather-savings-top');
   if (atherTop) atherTop.textContent = formatINR(atherSavings);
 
-  // Zone 3: Lower EV Calculator Results
+  // ── 2. Update Zone 3 (Lower EV Calculator Results) ────────
   document.getElementById('tiago-savings').textContent = formatINR(tiagSavings);
   document.getElementById('ather-savings').textContent = formatINR(atherSavings);
 
-  // Progress bar
+  // ── 3. Update Giant CapEx Progress Bar ────────────────────
   const bar = document.getElementById('capex-bar');
-  bar.style.width = pct.toFixed(1) + '%';
-  bar.parentElement.setAttribute('aria-valuenow', pct.toFixed(0));
+  if (bar) {
+    bar.style.width = pct.toFixed(1) + '%';
+    bar.parentElement.setAttribute('aria-valuenow', pct.toFixed(0));
+  }
 
   const pctEl = document.getElementById('capex-pct');
-  pctEl.textContent = pct.toFixed(1) + '%';
+  if (pctEl) pctEl.textContent = pct.toFixed(1) + '%';
 
-  // ── Individual Asset Progress Bars ────────────────────────
+  const remainingEl = document.getElementById('stat-remaining');
+  if (remainingEl) {
+    remainingEl.textContent = remaining <= 0 ? '✓ Recovered' : formatINR(remaining);
+    remainingEl.classList.toggle('dash-stat-val--recovered', remaining <= 0);
+    remainingEl.classList.toggle('dash-stat-val--amber', remaining > 0 && pct >= 75);
+  }
+
+  // ── 4. Update the 3 Mini Progress Bars ────────────────────
   const pctSolar = Math.min((solarTotalSaved / 385000) * 100, 100);
   const pctTiago = Math.min((tiagSavings / 1200000) * 100, 100);
   const pctAther = Math.min((atherSavings / 160000) * 100, 100);
