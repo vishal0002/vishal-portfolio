@@ -74,9 +74,14 @@ function recalculate() {
   const pct          = Math.min((grandTotal / CONFIG.CAPEX_TOTAL) * 100, 100);
 
   // ── 1. Update Zone 1 (Top Command Center) ─────────────────
-  document.getElementById('stat-grand-total').textContent = formatINR(grandTotal);
-  document.getElementById('stat-solar-total').textContent = formatINR(solarTotalSaved);
-  document.getElementById('stat-solar-kwh').textContent   = `${formatNum(solarTotalKwh)} kWh generated`;
+  const statGrandTotal = document.getElementById('stat-grand-total');
+  if (statGrandTotal) statGrandTotal.textContent = formatINR(grandTotal);
+
+  const statSolarTotal = document.getElementById('stat-solar-total');
+  if (statSolarTotal) statSolarTotal.textContent = formatINR(solarTotalSaved);
+
+  const statSolarKwh = document.getElementById('stat-solar-kwh');
+  if (statSolarKwh) statSolarKwh.textContent = `${formatNum(solarTotalKwh)} kWh generated`;
 
   const tiagoTop = document.getElementById('tiago-savings-top');
   if (tiagoTop) tiagoTop.textContent = formatINR(tiagSavings);
@@ -85,14 +90,17 @@ function recalculate() {
   if (atherTop) atherTop.textContent = formatINR(atherSavings);
 
   // ── 2. Update Zone 3 (Lower EV Calculator Results) ────────
-  document.getElementById('tiago-savings').textContent = formatINR(tiagSavings);
-  document.getElementById('ather-savings').textContent = formatINR(atherSavings);
+  const tiagoSavBottom = document.getElementById('tiago-savings');
+  if (tiagoSavBottom) tiagoSavBottom.textContent = formatINR(tiagSavings);
+
+  const atherSavBottom = document.getElementById('ather-savings');
+  if (atherSavBottom) atherSavBottom.textContent = formatINR(atherSavings);
 
   // ── 3. Update Giant CapEx Progress Bar ────────────────────
   const bar = document.getElementById('capex-bar');
   if (bar) {
     bar.style.width = pct.toFixed(1) + '%';
-    bar.parentElement.setAttribute('aria-valuenow', pct.toFixed(0));
+    if (bar.parentElement) bar.parentElement.setAttribute('aria-valuenow', pct.toFixed(0));
   }
 
   const pctEl = document.getElementById('capex-pct');
@@ -118,8 +126,33 @@ function recalculate() {
 
   const progAther = document.getElementById('prog-ather');
   if (progAther) progAther.style.width = pctAther.toFixed(1) + '%';
-}
 
+  // ── 5. Update The Hero Summary Card ───────────────────────
+  // Tiago ~0.12 kWh/km | Ather ~0.035 kWh/km
+  const tiagoKwhUsed = tiagoDrivenKm * 0.12;
+  const atherKwhUsed = atherDrivenKm * 0.035;
+  const totalEvKwhUsed = tiagoKwhUsed + atherKwhUsed;
+  
+  let solarCoveragePct = 0;
+  if (totalEvKwhUsed > 0) {
+      // Calculate how much of the EV consumption was covered by the total solar generated
+      solarCoveragePct = Math.min((solarTotalKwh / totalEvKwhUsed) * 100, 100);
+  } else if (solarTotalKwh > 0) {
+      solarCoveragePct = 100; // If no km driven but solar exists, it covers 100%
+  }
+
+  const heroSolarGen = document.getElementById('hero-solar-gen');
+  if (heroSolarGen) heroSolarGen.textContent = formatNum(solarTotalKwh) + ' kWh';
+
+  const heroEvKwh = document.getElementById('hero-ev-kwh');
+  if (heroEvKwh) heroEvKwh.textContent = formatNum(totalEvKwhUsed) + ' kWh';
+
+  const heroNetSavings = document.getElementById('hero-net-savings');
+  if (heroNetSavings) heroNetSavings.textContent = formatINR(grandTotal);
+
+  const heroSolarCoverage = document.getElementById('hero-solar-coverage');
+  if (heroSolarCoverage) heroSolarCoverage.textContent = '~' + solarCoveragePct.toFixed(0) + '% of EV usage';
+}
 /* ─────────────────────────────────────────────────────────────
    CHART — Solar monthly INR savings
 ───────────────────────────────────────────────────────────── */
