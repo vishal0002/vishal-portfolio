@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sensor Fusion Showdown — Vishal Bagade</title>
+  <style>
+    body { background: #050810; color: #e2e8f0; font-family: 'Courier New', monospace; display: flex; gap: 20px; padding: 20px; }
+    .panel { background: rgba(255,255,255,0.03); border: 1px solid #00d4ff33; padding: 20px; width: 350px; border-radius: 8px; }
+    canvas { background: #000; border: 1px solid #00d4ff66; border-radius: 8px; }
+    .legend { margin-top: 10px; font-size: 0.8rem; }
+    .k { color: #00ff00; } .c { color: #00d4ff; } .p { color: #ff00ff; } .t { color: #ffffff; }
+    select, button { width: 100%; padding: 10px; margin-top: 10px; background: #111; color: #00d4ff; border: 1px solid #00d4ff; cursor: pointer; }
+    input[type=range] { width: 100%; accent-color: #00d4ff; }
+  </style>
+</head>
+<body>
+
+  <div class="panel">
+    <h2 style="color:#00d4ff; font-size: 1.1rem; letter-spacing: 2px;">SENSOR FUSION SHOWDOWN</h2>
+    
+    <label>Active Feedback Filter:</label>
+    <select id="activeFilter">
+      <option value="kalman">Kalman Filter (Optimal)</option>
+      <option value="comp">Complementary (Hobbyist)</option>
+      <option value="bayes">Particle Filter (Monte Carlo)</option>
+    </select>
+
+    <div class="legend">
+      <div class="t">■ True Position (Physical Reality)</div>
+      <div class="k">■ Kalman Estimate (Math/Probabilistic)</div>
+      <div class="c">■ Complementary Estimate (Weighted)</div>
+      <div class="p">■ Particle Swarm (Stochastic)</div>
+    </div>
+
+    <label style="display:block; margin-top:20px;">Gyro Noise: <span id="v-gyro">0.005</span></label>
+    <input type="range" id="gyro_noise" min="0" max="0.05" step="0.001" value="0.005">
+
+    <label>Accel Noise: <span id="v-accel">0.01</span></label>
+    <input type="range" id="accel_noise" min="0" max="0.1" step="0.001" value="0.01">
+
+    <button onclick="location.reload()">Reset System</button>
+
+    <div id="telemetry" style="margin-top:20px; font-size: 0.8rem; border-top:1px solid #333; padding-top:10px;">
+       Error (Kalman): <span id="err-k" class="k">0.00</span><br>
+       Error (Comp):   <span id="err-c" class="c">0.00</span><br>
+       Error (Particle): <span id="err-p" class="p">0.00</span>
+    </div>
+  </div>
+
+  <canvas id="simCanvas" width="600" height="600"></canvas>
+
+  <script src="cpp_src/kalman.js"></script>
+  <script src="cpp_src/comp.js"></script>
+  <script src="cpp_src/bayes.js"></script>
+
+  <script>
+    let K, C, B;
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Physics State (The Ground Truth)
+    let theta = 1.0, omega = 0.0, dt = 0.016;
+    let est_k = 1.0, est_c = 1.0, est_b = 1.0;
+    
+    // Config for Subdirectory Loading
+    const wasmConfig = { locateFile: (path) => `cpp_src/${path}` };
+
+    // Boot the System
+    Promise.all([
+      KalmanModule(wasmConfig),
+      CompModule(wasmConfig),
+      BayesModule(wasmConfig)
+    ]).then(modules => {
+      [K, C, B] = modules;
+      requestAnimationFrame(loop);
+    });
+
+    function loop() {
+      // 1. Get UI Inputs
+      const g_noise = parseFloat(document.getElementById('gyro_noise').value);
+      const a_noise = parseFloat(document.getElementById('accel_noise').value);
+      document.getElementById('v-gyro').innerText = g_noise;
+      document.getElementById('v-accel').innerText = a_noise;
+
+      // 2. Generate "Noisy" Sensors
+      const gyro_meas = omega + (randn() * g_noise);
+      const accel_meas = theta + (randn() * a_noise);
+
+      // 3. Update all 3 WASM Filters!
+      est_k = K._filter_step(gyro_meas, accel_meas, dt);
+      est_c = C._filter_step(gyro_meas, accel_meas, dt);
+      est_b = B._filter_step(gyro_meas, accel_meas, dt);
+
+      // 4. PID Control (Feed the user-selected filter back into the motor)
+      const selected = document.getElementById('activeFilter').value;
+      let feedback_theta = (selected === 'kalman') ? est_k : (selected === 'comp' ? est_c : est_b);
+      
+      const torque = -(20 * feedback_theta + 2 * (feedback_theta/dt)); // Simple PD
+      const alpha_phys = Math.max(-0.5, Math.min(0.5, torque)) / 0.005;
+      omega += alpha_phys * dt;
+      theta += omega * dt;
+
+      // 5. Draw
+      draw();
+      updateTelemetry();
+      requestAnimationFrame(loop);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, 600, 600);
+      ctx.save();
+      ctx.translate(300, 400);
+      
+      // Draw 3 Ghost Pendulums (The Filters)
+      drawPendulum(est_k, '#00ff0066', 4); // Kalman
+      drawPendulum(est_c, '#00d4ff66', 4); // Comp
+      drawPendulum(est_b, '#ff00ff66', 4); // Particle
+      
+      // Draw 1 Solid Pendulum (The Reality)
+      drawPendulum(theta, '#ffffff', 8); 
+      
+      ctx.restore();
+    }
+
+    function drawPendulum(angle, color, width) {
+      ctx.save();
+      ctx.rotate(angle);
+      ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(0,-250);
+      ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineCap = 'round'; ctx.stroke();
+      ctx.restore();
+    }
+
+    function updateTelemetry() {
+      document.getElementById('err-k').innerText = Math.abs(theta - est_k).toFixed(4);
+      document.getElementById('err-c').innerText = Math.abs(theta - est_c).toFixed(4);
+      document.getElementById('err-p').innerText = Math.abs(theta - est_b).toFixed(4);
+    }
+
+    function randn() {
+      let u = 0, v = 0;
+      while(u === 0) u = Math.random(); while(v === 0) v = Math.random();
+      return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+    }
+  </script>
+</body>
+</html>
