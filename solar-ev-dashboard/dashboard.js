@@ -12,7 +12,7 @@ const CONFIG = {
   JSON_PATH: './assets/savings_state.json',
 
   // Total CapEx of the solar installation (INR)
-  CAPEX_TOTAL: 385000,
+  CAPEX_TOTAL: 1745000,
 
   // EV savings multipliers (INR per km driven)
   // Adjust these if petrol prices or electricity tariffs change significantly.
@@ -75,25 +75,18 @@ function recalculate() {
 
   // ── Update DOM ────────────────────────────────────────────
 
-  // Grand total
+  // Zone 1: Top Command Center Grid
   document.getElementById('stat-grand-total').textContent = formatINR(grandTotal);
-
-  // Remaining CapEx (colour hint when recovered)
-  const remainingEl = document.getElementById('stat-remaining');
-  remainingEl.textContent = remaining <= 0
-    ? '✓ Recovered'
-    : formatINR(remaining);
-  remainingEl.classList.toggle('dash-stat-val--recovered', remaining <= 0);
-  remainingEl.classList.toggle('dash-stat-val--amber',     remaining > 0 && pct >= 75);
-
-  // Solar stats
   document.getElementById('stat-solar-total').textContent = formatINR(solarTotalSaved);
   document.getElementById('stat-solar-kwh').textContent   = `${formatNum(solarTotalKwh)} kWh generated`;
+  
+  const tiagoTop = document.getElementById('tiago-savings-top');
+  if (tiagoTop) tiagoTop.textContent = formatINR(tiagSavings);
+  
+  const atherTop = document.getElementById('ather-savings-top');
+  if (atherTop) atherTop.textContent = formatINR(atherSavings);
 
-  // EV total
-  document.getElementById('stat-ev-total').textContent = formatINR(evTotal);
-
-  // Individual EV cards
+  // Zone 3: Lower EV Calculator Results
   document.getElementById('tiago-savings').textContent = formatINR(tiagSavings);
   document.getElementById('ather-savings').textContent = formatINR(atherSavings);
 
