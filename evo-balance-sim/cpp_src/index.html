@@ -69,6 +69,20 @@
     <div class="telemetry">
       <div>Torque: <br><span id="txt-torque">0.00</span> Nm</div>
       <div>True Angle: <br><span id="txt-theta">0.00</span> rad</div>
+      </div>
+
+    <div style="margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+      <h3 style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 0.5rem;">LIVE LOGS & EXPORT</h3>
+      
+      <div id="log-terminal" style="background: #000; border: 1px solid #334155; padding: 0.5rem; height: 120px; overflow-y: scroll; font-family: monospace; font-size: 0.75rem; color: #10b981; margin-bottom: 0.5rem;">
+        > System Initialized...<br>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem;">
+        <button id="btn-record" style="background: #ef4444; color: white;">⏺ Start Recording</button>
+        <button id="btn-download" style="background: #10b981; color: white; display: none;">⬇ Download CSV</button>
+      </div>
+    </div>
     </div>
   </div>
 
@@ -106,6 +120,50 @@
       const ctx = canvas.getContext("2d");
       let lastTime = performance.now();
 
+      // Data Logging Variables
+      let isRecording = false;
+      let recordedData = [];
+      let frameCount = 0;
+      const logTerminal = document.getElementById('log-terminal');
+
+      // --- MISSING LOGGING FUNCTIONS ---
+      function logToTerminal(msg) {
+        logTerminal.innerHTML += msg + "<br>";
+        logTerminal.scrollTop = logTerminal.scrollHeight; // Auto-scroll to bottom
+      }
+
+      // --- RECORD BUTTON LOGIC ---
+      document.getElementById('btn-record').addEventListener('click', (e) => {
+        if (!isRecording) {
+          isRecording = true;
+          recordedData = []; // Clear old data
+          recordedData.push(["Time_s", "True_Angle_rad", "Angular_Vel_rad_s", "Torque_Nm", "Est_Angle_rad"]);
+          e.target.innerText = "⏹ Stop Recording";
+          e.target.style.background = "#3b82f6";
+          document.getElementById('btn-download').style.display = "none";
+          logToTerminal("> Recording started...");
+        } else {
+          isRecording = false;
+          e.target.innerText = "⏺ Start Recording";
+          e.target.style.background = "#ef4444";
+          document.getElementById('btn-download').style.display = "block";
+          logToTerminal(`> Recording stopped. ${recordedData.length - 1} frames captured.`);
+        }
+      });
+      // ----------------------------
+      
+      document.getElementById('btn-download').addEventListener('click', () => {
+        let csvContent = "data:text/csv;charset=utf-8," + recordedData.map(e => e.join(",")).join("\n");
+        let encodedUri = encodeURI(csvContent);
+        let link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "wasm_balance_telemetry.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        logToTerminal("> CSV Downloaded successfully.");
+      });
+      // ---------------------------------
       // Ensure initial state matches the C++ struct
       Module.setValue(ptr_theta, 1.0, 'double');
       Module.setValue(ptr_omega, 0.0, 'double');
@@ -157,6 +215,27 @@
         document.getElementById('txt-torque').innerText = current_torque.toFixed(3);
         document.getElementById('txt-theta').innerText = current_theta.toFixed(3);
 
+        frameCount++;
+        
+        // 1. Live Terminal Logging (Throttled to update 2 times a second so it doesn't lag the browser)
+        if (frameCount % 30 === 0) {
+           logToTerminal(`t=${(frameCount*0.016).toFixed(1)}s | θ=${current_theta.toFixed(3)} | τ=${current_torque.toFixed(3)}`);
+        }
+
+        // 2. High-Speed CSV Recording (Captures every single frame)
+        if (isRecording) {
+           // We have to get omega and theta_est from WASM memory for the CSV
+           const current_omega = Module.getValue(ptr_omega, 'double');
+           const current_theta_est = Module.getValue(ptr_theta_est, 'double');
+           
+           recordedData.push([
+             (frameCount * 0.016).toFixed(3), 
+             current_theta.toFixed(4), 
+             current_omega.toFixed(4), 
+             current_torque.toFixed(4), 
+             current_theta_est.toFixed(4)
+           ]);
+        }
         // --- DRAW THE ROBOT ---
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.save();
