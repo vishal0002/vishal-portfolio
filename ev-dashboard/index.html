@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solar & EV Fleet — ROI Dashboard | Vishal Bagade</title>
+  <meta name="author" content="Vishal Bagade" />
+  <meta name="description" content="Live ROI tracking for a 5.1kW rooftop solar plant and EV fleet — Tiago.ev & Ather 450X. CapEx recovery progress, monthly generation chart, and fleet savings calculator." />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="Solar & EV Fleet ROI Dashboard — Vishal Bagade" />
+  <meta property="og:description" content="Live CapEx recovery tracking for a 5.1kW solar plant and two-EV fleet." />
+  <meta property="og:url" content="https://vishal.evovhil.com/ev-dashboard/" />
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="canonical" href="https://vishal.evovhil.com/ev-dashboard/" />
+
+  <!-- Portfolio design system -->
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../portfolio.css" />
+  <!-- Dashboard-specific styles -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Chart.js + date adapter via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVS54RD7KM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EVS54RD7KM');
+    function trackEvent(name, params = {}) { gtag('event', name, params); }
+  </script>
+  <!-- GoatCounter -->
+  <script data-goatcounter="https://evo-vhil.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="scanline"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <span class="dot"></span> Vishal Bagade
+    </a>
+    <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="/">Home</a>
+      <a href="/#projects">Projects</a>
+      <a href="/about.html">About</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── CONTEXT HEADER ── -->
+<header class="project-header">
+  <div class="container reading-col">
+    <a href="/#projects" class="back-link" aria-label="Back to all projects"
+       onclick="trackEvent('nav_back', { project: 'ev_dashboard' })">
+      ← Back to Projects
+    </a>
+    <h1 class="project-header-title">Solar &amp; EV Fleet Dashboard</h1>
+    <dl class="project-meta">
+      <div class="project-meta-item">
+        <dt>Plant</dt>
+        <dd class="mono text-dim">5.1 kW Rooftop · Jan 2023</dd>
+      </div>
+      <div class="project-meta-item">
+        <dt>Fleet</dt>
+        <dd>
+          <span class="tech-tag">Tiago.ev</span>
+          <span class="tech-tag">Ather 450X</span>
+        </dd>
+      </div>
+      <div class="project-meta-item">
+        <dt>CapEx</dt>
+        <dd class="mono text-dim">₹3,85,000</dd>
+      </div>
+      <div class="project-meta-item">
+        <dt>Status</dt>
+        <dd><span class="project-status project-status--active">Live</span></dd>
+      </div>
+    </dl>
+  </div>
+</header>
+
+<main id="dashboard-main">
+
+  <!-- ═══════════════════════════════════════
+       ZONE 1 — ROI COMMAND CENTRE (top stats)
+  ══════════════════════════════════════════ -->
+  <section class="section dash-zone" aria-label="ROI overview">
+    <div class="container">
+
+      <div class="dash-zone-label">
+        <span class="section-tag">Zone 1 — ROI Engine</span>
+      </div>
+
+      <!-- CapEx Recovery Progress Bar -->
+      <div class="capex-progress-wrap" role="region" aria-label="CapEx recovery progress">
+        <div class="capex-progress-header">
+          <span class="capex-progress-title">CapEx Recovery</span>
+          <span class="capex-progress-pct" id="capex-pct">—</span>
+        </div>
+        <div class="capex-bar-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-labelledby="capex-pct">
+          <div class="capex-bar-fill" id="capex-bar"></div>
+        </div>
+        <div class="capex-bar-labels">
+          <span class="mono text-dim" style="font-size:0.68rem;">₹0</span>
+          <span class="mono text-dim" style="font-size:0.68rem;">₹3,85,000</span>
+        </div>
+      </div>
+
+      <!-- Top stat cards -->
+      <div class="stat-grid" aria-label="Key metrics">
+
+        <div class="dash-stat-card">
+          <div class="dash-stat-label">Grand Total Fleet Savings</div>
+          <div class="dash-stat-val dash-stat-val--green" id="stat-grand-total">₹—</div>
+          <div class="dash-stat-sub">Solar + Tiago + Ather</div>
+        </div>
+
+        <div class="dash-stat-card">
+          <div class="dash-stat-label">Remaining CapEx</div>
+          <div class="dash-stat-val" id="stat-remaining">₹—</div>
+          <div class="dash-stat-sub">of ₹3,85,000 total</div>
+        </div>
+
+        <div class="dash-stat-card">
+          <div class="dash-stat-label">Solar Savings (Cumulative)</div>
+          <div class="dash-stat-val dash-stat-val--solar" id="stat-solar-total">₹—</div>
+          <div class="dash-stat-sub" id="stat-solar-kwh">— kWh generated</div>
+        </div>
+
+        <div class="dash-stat-card">
+          <div class="dash-stat-label">Fleet EV Savings</div>
+          <div class="dash-stat-val dash-stat-val--cyan" id="stat-ev-total">₹—</div>
+          <div class="dash-stat-sub">Tiago + Ather combined</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       ZONE 2 — SOLAR GENERATION CHART
+  ══════════════════════════════════════════ -->
+  <section class="section dash-zone" aria-label="Solar generation history">
+    <div class="container">
+
+      <div class="dash-zone-label">
+        <span class="section-tag">Zone 2 — Solar Generation</span>
+      </div>
+
+      <div class="section-header" style="margin-bottom:1.5rem;">
+        <h2 class="section-title" style="font-size:clamp(1.2rem,2.5vw,1.8rem);">
+          Monthly INR Savings — Rooftop Solar
+        </h2>
+        <p class="section-lead" style="font-size:0.9rem;">
+          5.1 kW system · Commissioned Jan 2023 · <span class="mono text-cyan">₹12/kWh</span> avoided grid tariff
+        </p>
+      </div>
+
+      <div class="chart-wrap" id="chart-loading" aria-label="Solar savings line chart">
+        <div class="chart-skeleton">
+          <span class="mono text-dim" style="font-size:0.78rem;">Loading data…</span>
+        </div>
+        <canvas id="solarChart" aria-label="Monthly solar savings chart" role="img"></canvas>
+      </div>
+
+      <!-- Chart legend -->
+      <div class="chart-legend">
+        <span class="chart-legend-item">
+          <span class="chart-legend-dot" style="background:#00ffaa;"></span>
+          Monthly INR Saved (Solar)
+        </span>
+        <span class="chart-legend-item">
+          <span class="chart-legend-dot" style="background:rgba(0,255,170,0.25); border:1px dashed #00ffaa;"></span>
+          Gradient fill = cumulative momentum
+        </span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       ZONE 3 — EV SAVINGS CALCULATOR
+  ══════════════════════════════════════════ -->
+  <section class="section dash-zone" aria-label="EV savings calculator">
+    <div class="container">
+
+      <div class="dash-zone-label">
+        <span class="section-tag">Zone 3 — EV Fleet Calculator</span>
+      </div>
+
+      <div class="section-header" style="margin-bottom:1.5rem;">
+        <h2 class="section-title" style="font-size:clamp(1.2rem,2.5vw,1.8rem);">
+          EV Cost Savings vs ICE Baseline
+        </h2>
+        <p class="section-lead" style="font-size:0.9rem;">
+          Enter total lifetime odometer for each vehicle. Savings calculated live.
+        </p>
+      </div>
+
+      <div class="ev-calc-grid">
+
+        <!-- Tiago.ev -->
+        <div class="ev-calc-card ev-calc-card--cyan">
+          <div class="ev-calc-header">
+            <span class="ev-calc-icon">🚗</span>
+            <div>
+              <div class="ev-calc-title">Tiago.ev</div>
+              <div class="ev-calc-rate mono">₹7 saved / km vs petrol</div>
+            </div>
+          </div>
+
+          <label class="ev-input-label" for="tiago-km">Total Odometer (km)</label>
+          <div class="ev-input-wrap">
+            <input
+              type="number"
+              id="tiago-km"
+              class="ev-input ev-input--cyan"
+              placeholder="e.g. 15000"
+              min="0"
+              step="100"
+              inputmode="numeric"
+              aria-label="Tiago.ev total odometer in kilometres"
+              onchange="trackEvent('ev_input', { vehicle: 'tiago', km: this.value })"
+            />
+            <span class="ev-input-unit mono">km</span>
+          </div>
+
+          <div class="ev-calc-result">
+            <span class="ev-calc-result-label">Estimated Savings</span>
+            <span class="ev-calc-result-val ev-calc-result-val--cyan" id="tiago-savings">₹0</span>
+          </div>
+
+          <div class="ev-calc-assumption">
+            Assumes petrol car at ~12 km/l, petrol ≈ ₹100/l (₹8.33/km ICE cost).
+            EV charging cost ≈ ₹1.33/km. Net saving = ₹7/km.
+          </div>
+        </div>
+
+        <!-- Ather 450X -->
+        <div class="ev-calc-card ev-calc-card--purple">
+          <div class="ev-calc-header">
+            <span class="ev-calc-icon">⚡</span>
+            <div>
+              <div class="ev-calc-title">Ather 450X</div>
+              <div class="ev-calc-rate mono">₹2.5 saved / km vs petrol scooter</div>
+            </div>
+          </div>
+
+          <label class="ev-input-label" for="ather-km">Total Odometer (km)</label>
+          <div class="ev-input-wrap">
+            <input
+              type="number"
+              id="ather-km"
+              class="ev-input ev-input--purple"
+              placeholder="e.g. 8000"
+              min="0"
+              step="100"
+              inputmode="numeric"
+              aria-label="Ather 450X total odometer in kilometres"
+              onchange="trackEvent('ev_input', { vehicle: 'ather', km: this.value })"
+            />
+            <span class="ev-input-unit mono">km</span>
+          </div>
+
+          <div class="ev-calc-result">
+            <span class="ev-calc-result-label">Estimated Savings</span>
+            <span class="ev-calc-result-val ev-calc-result-val--purple" id="ather-savings">₹0</span>
+          </div>
+
+          <div class="ev-calc-assumption">
+            Assumes petrol scooter at ~40 km/l, petrol ≈ ₹100/l (₹2.50/km ICE cost).
+            Ather charging cost ≈ ₹0/km (solar-charged). Net saving = ₹2.5/km.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       ZONE 4 — RAW DATA TABLE (collapsible)
+  ══════════════════════════════════════════ -->
+  <section class="section dash-zone" aria-label="Monthly solar data log">
+    <div class="container">
+
+      <div class="dash-zone-label">
+        <span class="section-tag">Zone 4 — Data Log</span>
+      </div>
+
+      <details class="log-archive data-archive">
+        <summary>> View Monthly Solar Data (Full Log)</summary>
+        <div class="data-table-wrap">
+          <table class="layer-table" id="data-table" aria-label="Monthly solar generation and savings data">
+            <thead>
+              <tr>
+                <th>Period</th>
+                <th>kWh Generated</th>
+                <th>INR Saved</th>
+              </tr>
+            </thead>
+            <tbody id="data-table-body">
+              <tr><td colspan="3" class="mono text-dim" style="text-align:center;padding:1.5rem;">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════
+       SCOPE NOTE
+  ══════════════════════════════════════════ -->
+  <section class="section" style="padding-top:0; padding-bottom:4rem;">
+    <div class="container reading-col">
+      <div class="callout">
+        <h4 style="margin-bottom:0.5rem;">Data &amp; Assumptions</h4>
+        <p style="margin:0; font-size:0.9rem; line-height:1.75;">
+          Solar savings are calculated at <strong>₹12/kWh</strong> avoided grid tariff.
+          EV savings are simplified flat-rate multipliers (₹7/km Tiago, ₹2.5/km Ather)
+          and do not account for electricity tariff variation over time.
+          All figures are estimates for personal ROI tracking, not financial advice.
+          CapEx = ₹3,85,000 (5.1 kW system, fully installed, Jan 2023).
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Vishal Bagade</div>
+      <div class="footer-meta mt-1">Solar · EV Fleet · ROI Tracking Dashboard</div>
+    </div>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="https://github.com/vishal0002" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/vishal-bagade/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="mailto:vishalbagade@gmail.com">Email</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- Nav toggle script (same as all other pages) -->
+<script>
+const navToggle = document.getElementById('navToggle');
+const navLinks  = document.getElementById('navLinks');
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+  document.addEventListener('click', e => {
+    if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+</script>
+
+<!-- Dashboard logic -->
+<script src="dashboard.js"></script>
+</body>
+</html>
