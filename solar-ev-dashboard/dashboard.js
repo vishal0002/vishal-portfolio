@@ -334,3 +334,27 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+// ── 5. Update The Hero Summary Card ───────────────────────
+  // Calculate EV Energy Consumption (Estimates: Tiago ~120Wh/km, Ather ~35Wh/km)
+  const tiagoKwhUsed = tiagoDrivenKm * 0.12;
+  const atherKwhUsed = atherDrivenKm * 0.035;
+  const totalEvKwhUsed = tiagoKwhUsed + atherKwhUsed;
+  
+  // Calculate what percentage of EV charging was covered by Solar
+  let solarCoveragePct = 0;
+  if (totalEvKwhUsed > 0) {
+      solarCoveragePct = Math.min((solarTotalKwh / totalEvKwhUsed) * 100, 100);
+  }
+
+  // Push to the DOM
+  const heroSolarGen = document.getElementById('hero-solar-gen');
+  if (heroSolarGen) heroSolarGen.textContent = formatNum(solarTotalKwh) + ' kWh';
+
+  const heroEvKwh = document.getElementById('hero-ev-kwh');
+  if (heroEvKwh) heroEvKwh.textContent = formatNum(totalEvKwhUsed) + ' kWh';
+
+  const heroNetSavings = document.getElementById('hero-net-savings');
+  if (heroNetSavings) heroNetSavings.textContent = formatINR(grandTotal);
+
+  const heroSolarCoverage = document.getElementById('hero-solar-coverage');
+  if (heroSolarCoverage) heroSolarCoverage.textContent = '~' + solarCoveragePct.toFixed(0) + '% of EV usage';
