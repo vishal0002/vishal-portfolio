@@ -264,6 +264,10 @@ function wireInputs() {
   tiagEl.addEventListener('change', onTiagoInput);
   atherEl.addEventListener('input',  onAtherInput);
   atherEl.addEventListener('change', onAtherInput);
+
+  // --- NEW: Read the HTML defaults instantly on page load ---
+  if (tiagEl) tiagoDrivenKm = parseFloat(tiagEl.value) || 0;
+  if (atherEl) atherDrivenKm = parseFloat(atherEl.value) || 0;
 }
 
 /* ─────────────────────────────────────────────────────────────
