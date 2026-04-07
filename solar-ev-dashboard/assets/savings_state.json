@@ -862,5 +862,26 @@
     "aggregates": {
       "total_daily_savings": 6493.2
     }
+  },
+  {
+    "period": "2026-01-01",
+    "solar": {
+      "kwh_generated": 533.0,
+      "inr_saved": 6396
+    }
+  },
+  {
+    "period": "2026-02-01",
+    "solar": {
+      "kwh_generated": 530.8,
+      "inr_saved": 6369.6
+    }
+  },
+  {
+    "period": "2026-03-01",
+    "solar": {
+      "kwh_generated": 691.1,
+      "inr_saved": 8293.2
+    }
   }
 ]
