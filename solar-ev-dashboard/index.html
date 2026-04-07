@@ -10,12 +10,12 @@
 
   <meta property="og:title" content="Solar & EV Fleet ROI Dashboard — Vishal Bagade" />
   <meta property="og:description" content="Live CapEx recovery tracking for a 5.1kW solar plant and two-EV fleet." />
-  <meta property="og:url" content="https://vishal.evovhil.com/ev-dashboard/" />
+  <meta property="og:url" content="https://vishal.evovhil.com/solar-ev-dashboard/" />
   <meta property="og:type" content="article" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  <link rel="canonical" href="https://vishal.evovhil.com/ev-dashboard/" />
+  <link rel="canonical" href="https://vishal.evovhil.com/solar-ev-dashboard/" />
 
   <!-- Portfolio design system -->
   <link rel="stylesheet" href="../style.css" />
@@ -63,7 +63,7 @@
 <header class="project-header">
   <div class="container reading-col">
     <a href="/#projects" class="back-link" aria-label="Back to all projects"
-       onclick="trackEvent('nav_back', { project: 'ev_dashboard' })">
+       onclick="trackEvent('nav_back', { project: 'solar-ev_dashboard' })">
       ← Back to Projects
     </a>
     <h1 class="project-header-title">Solar &amp; EV Fleet Dashboard</h1>
@@ -114,35 +114,36 @@
         </div>
         <div class="capex-bar-labels">
           <span class="mono text-dim" style="font-size:0.68rem;">₹0</span>
-          <span class="mono text-dim" style="font-size:0.68rem;">₹3,85,000</span>
+          <span class="mono text-dim" style="font-size:0.68rem;">₹17,45,000</span>
         </div>
       </div>
 
       <!-- Top stat cards -->
-      <div class="stat-grid" aria-label="Key metrics">
+      <div class="stat-grid" aria-label="Key metrics" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; margin-bottom: 30px;">
 
-        <div class="dash-stat-card">
-          <div class="dash-stat-label">Grand Total Fleet Savings</div>
-          <div class="dash-stat-val dash-stat-val--green" id="stat-grand-total">₹—</div>
-          <div class="dash-stat-sub">Solar + Tiago + Ather</div>
-        </div>
-
-        <div class="dash-stat-card">
-          <div class="dash-stat-label">Remaining CapEx</div>
-          <div class="dash-stat-val" id="stat-remaining">₹—</div>
-          <div class="dash-stat-sub">of ₹3,85,000 total</div>
-        </div>
-
-        <div class="dash-stat-card">
-          <div class="dash-stat-label">Solar Savings (Cumulative)</div>
+        <div class="dash-stat-card" style="border-top: 2px solid #00ffaa;">
+          <div class="dash-stat-label" style="color: #00ffaa; font-weight: bold; margin-bottom: 5px;">MODULE A: SOLAR</div>
+          <div class="dash-stat-sub" style="margin-bottom: 10px;">CapEx: ₹3,85,000</div>
           <div class="dash-stat-val dash-stat-val--solar" id="stat-solar-total">₹—</div>
           <div class="dash-stat-sub" id="stat-solar-kwh">— kWh generated</div>
         </div>
 
-        <div class="dash-stat-card">
-          <div class="dash-stat-label">Fleet EV Savings</div>
-          <div class="dash-stat-val dash-stat-val--cyan" id="stat-ev-total">₹—</div>
-          <div class="dash-stat-sub">Tiago + Ather combined</div>
+        <div class="dash-stat-card" style="border-top: 2px solid #00c8ff;">
+          <div class="dash-stat-label" style="color: #00c8ff; font-weight: bold; margin-bottom: 5px;">MODULE B: TIAGO</div>
+          <div class="dash-stat-sub" style="margin-bottom: 10px;">CapEx: ₹12,00,000</div>
+          <div class="dash-stat-val dash-stat-val--cyan" id="tiago-savings-top">₹—</div>
+        </div>
+
+        <div class="dash-stat-card" style="border-top: 2px solid #aa00ff;">
+          <div class="dash-stat-label" style="color: #aa00ff; font-weight: bold; margin-bottom: 5px;">MODULE C: ATHER</div>
+          <div class="dash-stat-sub" style="margin-bottom: 10px;">CapEx: ₹1,60,000</div>
+          <div class="dash-stat-val dash-stat-val--purple" id="ather-savings-top">₹—</div>
+        </div>
+
+        <div class="dash-stat-card" style="border-top: 2px solid #ffb300;">
+          <div class="dash-stat-label" style="color: #ffb300; font-weight: bold; margin-bottom: 5px;">FLEET COMMAND (TOTAL)</div>
+          <div class="dash-stat-sub" style="margin-bottom: 10px;">Total CapEx: ₹17,45,000</div>
+          <div class="dash-stat-val" style="color: #ffb300;" id="stat-grand-total">₹—</div>
         </div>
 
       </div>
