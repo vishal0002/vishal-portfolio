@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>Check Console (F12) for Filter Test Results</h1>
+
+  <script src="cpp_src/kalman.js"></script>
+  <script src="cpp_src/comp.js"></script>
+  <script src="cpp_src/bayes.js"></script>
+
+  <script>
+    async function runUnitTest() {
+      console.log("🚀 Starting Filter Unit Test...");
+
+      // Configuration to tell JS where to find the WASM files
+      const config = (name) => ({
+        locateFile: (path) => `cpp_src/${path}`
+      });
+
+      try {
+        // Initialize all 3 modules
+        const [K, C, B] = await Promise.all([
+          KalmanModule(config()),
+          CompModule(config()),
+          BayesModule(config())
+        ]);
+
+        console.log("✅ All WASM Modules Loaded.");
+
+        // Mock Data: System is at 0.5 rad, moving at 0.1 rad/s
+        const gyro = 0.1;
+        const accel = 0.5;
+        const dt = 0.016;
+
+        // Run one step through each
+        const resK = K._filter_step(gyro, accel, dt);
+        const resC = C._filter_step(gyro, accel, dt);
+        const resB = B._filter_step(gyro, accel, dt);
+
+        console.table({
+          "Kalman": { estimate: resK.toFixed(4) },
+          "Complementary": { estimate: resC.toFixed(4) },
+          "Particle (Bayes)": { estimate: resB.toFixed(4) }
+        });
+
+        if (resK !== 0 && resC !== 0 && resB !== 0) {
+          console.log("🏆 TEST PASSED: All filters are spitting out non-zero math.");
+        }
+
+      } catch (err) {
+        console.error("❌ TEST FAILED:", err);
+      }
+    }
+
+    runUnitTest();
+  </script>
+</body>
+</html>
