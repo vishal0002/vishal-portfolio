@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>India's 3-Stage Nuclear Programme — Vishal Bagade</title>
+  <meta name="author" content="Vishal Bagade" />
+  <meta name="description" content="A technical breakdown of Bhabha's closed fuel cycle — from PHWR breeding grounds to Fast Breeder criticality to the Thorium endgame. The physics, the chemistry, the materials science." />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="India's 3-Stage Nuclear Programme — Vishal Bagade" />
+  <meta property="og:description" content="A technical breakdown of Bhabha's closed fuel cycle — PHWR breeding, Fast Breeder criticality, and the Thorium endgame." />
+  <meta property="og:url" content="https://vishal.evovhil.com/india-3-stage-nuclear/" />
+  <meta property="og:type" content="article" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="India's 3-Stage Nuclear Programme — Vishal Bagade" />
+  <meta name="twitter:description" content="A technical breakdown of Bhabha's closed fuel cycle — PHWR breeding, Fast Breeder criticality, and the Thorium endgame." />
+
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="canonical" href="https://vishal.evovhil.com/india-3-stage-nuclear/" />
+
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../portfolio.css" />
+
+  <!-- MathJax for LaTeX equation rendering -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$']] },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] },
+      startup: { typeset: false }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script"></script>
+
+  <!-- Chart.js for waste radiotoxicity chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVS54RD7KM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-EVS54RD7KM');
+    function trackEvent(n, p = {}) { gtag('event', n, p); }
+  </script>
+  <!-- GoatCounter -->
+  <script data-goatcounter="https://evo-vhil.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+  <style>
+    /* ── PAGE-LOCAL STYLES ──────────────────────────────────────
+       Scoped entirely to this page. No overrides to global CSS.
+    ─────────────────────────────────────────────────────────── */
+
+    /* Stage accent colours */
+    :root {
+      --stage1: #f59e0b;   /* amber  — PHWR     */
+      --stage2: #00d4ff;   /* cyan   — FBR      */
+      --stage3: #22c55e;   /* green  — AHWR     */
+      --waste-u: #ef4444;  /* red    — U-Pu waste  */
+      --waste-th: #22c55e; /* green  — Th waste    */
+    }
+
+    /* ── PIPELINE SVG WRAPPER ─────────────────────────────────── */
+    .pipeline-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem 1rem;
+      overflow-x: auto;
+      margin: 2rem 0;
+    }
+    .pipeline-wrap svg {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* ── STAGE SECTION MARKERS ────────────────────────────────── */
+    .stage-marker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 100px;
+      margin-bottom: 0.75rem;
+    }
+    .stage-marker--1 { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); color: var(--stage1); }
+    .stage-marker--2 { background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.3);  color: var(--stage2); }
+    .stage-marker--3 { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.3);  color: var(--stage3); }
+
+    /* ── EQUATION BLOCK ───────────────────────────────────────── */
+    .eq-block {
+      background: #050810;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--border-hi);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin: 1.25rem 0;
+      overflow-x: auto;
+    }
+    .eq-block .eq-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.6rem;
+    }
+    /* MathJax output colour fix for dark background */
+    .eq-block mjx-container { color: var(--text-hi) !important; }
+
+    /* ── MILESTONE CALLOUT ────────────────────────────────────── */
+    .milestone {
+      border-left: 3px solid var(--cyan);
+      background: var(--cyan-dim);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .milestone h4 { color: var(--cyan); margin-bottom: 0.5rem; }
+    .milestone p  { margin: 0; font-size: 0.93rem; line-height: 1.75; }
+    .milestone p + p { margin-top: 0.6rem; }
+
+    /* Historic breakthrough variant */
+    .milestone--green {
+      border-left-color: var(--stage3);
+      background: rgba(34,197,94,0.07);
+    }
+    .milestone--green h4 { color: var(--stage3); }
+
+    .milestone--amber {
+      border-left-color: var(--stage1);
+      background: rgba(245,158,11,0.07);
+    }
+    .milestone--amber h4 { color: var(--stage1); }
+
+    /* ── WASTE CHART WRAPPER ──────────────────────────────────── */
+    .waste-chart-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .waste-chart-wrap canvas {
+      display: block;
+      width: 100% !important;
+      max-height: 340px;
+    }
+    .waste-chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 0.85rem;
+    }
+    .waste-chart-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+    .waste-chart-legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── CHEMISTRY TABLE ──────────────────────────────────────── */
+    .chem-process-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .chem-process-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+    }
+    .chem-process-title {
+      font-family: var(--head);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-hi);
+      margin-bottom: 0.6rem;
+    }
+    .chem-process-tag {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--amber);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    /* ── ATOMIC LATTICE VISUAL (DPA section) ──────────────────── */
+    .dpa-stat {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      padding: 0.85rem 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 0.25rem 0;
+    }
+    .dpa-stat-val {
+      font-family: var(--head);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--red);
+      line-height: 1;
+    }
+    .dpa-stat-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── WASTE TIMELINE COMPARISON TABLE ──────────────────────── */
+    .waste-compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .waste-compare-col {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+    }
+    .waste-compare-col--danger  { border-color: rgba(239,68,68,0.35); }
+    .waste-compare-col--safe    { border-color: rgba(34,197,94,0.35);  }
+    .waste-compare-col-title {
+      font-family: var(--head);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .waste-compare-col--danger .waste-compare-col-title  { color: var(--red); }
+    .waste-compare-col--safe   .waste-compare-col-title  { color: var(--stage3); }
+    .waste-compare-col-val {
+      font-family: var(--head);
+      font-size: 1.5rem;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+    .waste-compare-col--danger .waste-compare-col-val { color: var(--red); }
+    .waste-compare-col--safe   .waste-compare-col-val { color: var(--stage3); }
+    .waste-compare-col-sub {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+      .chem-process-grid { grid-template-columns: 1fr; }
+      .waste-compare      { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><span class="dot"></span> Vishal Bagade</a>
+    <button class="nav-hamburger" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="/">Home</a>
+      <a href="/#projects">Projects</a>
+      <a href="/about.html">About</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── CONTEXT HEADER ── -->
+<header class="project-header">
+  <div class="container reading-col">
+    <a href="/#projects" class="back-link" aria-label="Back to all projects"
+       onclick="trackEvent('nav_back', { project: 'india_nuclear' })">
+      ← Back to Projects
+    </a>
+    <h1 class="project-header-title">India's 3-Stage Nuclear Programme</h1>
+    <dl class="project-meta">
+      <div class="project-meta-item">
+        <dt>Type</dt>
+        <dd><span class="project-status" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);color:var(--amber);">Technical Writing</span></dd>
+      </div>
+      <div class="project-meta-item">
+        <dt>Status</dt>
+        <dd><span class="project-status project-status--active">Stage 2 Critical</span></dd>
+      </div>
+      <div class="project-meta-item">
+        <dt>Domain</dt>
+        <dd>
+          <span class="tech-tag">Nuclear Physics</span>
+          <span class="tech-tag">Materials Science</span>
+          <span class="tech-tag">Energy Policy</span>
+        </dd>
+      </div>
+      <div class="project-meta-item">
+        <dt>Scope</dt>
+        <dd class="mono text-dim">Stage 1 → 2 → 3 · ~100 year timeline</dd>
+      </div>
+    </dl>
+  </div>
+</header>
+
+<main>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 0 — THE FUEL PARADOX (Overview)
+  ══════════════════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="section-header">
+        <div class="section-tag">Overview</div>
+        <h2 class="section-title">The Fuel Paradox</h2>
+        <p class="section-lead">
+          India holds a meagre 1–2% of global Uranium reserves but sits on nearly
+          <strong>25% of the world's Thorium</strong> — approximately 11.9 million tonnes,
+          locked in the monazite sands of the Kerala coastline.
+        </p>
+      </div>
+
+      <p>
+        The problem is fundamental. Thorium-232 is <em>fertile</em>, not <em>fissile</em>.
+        It cannot sustain a chain reaction on its own. You cannot simply mine it, enrich it,
+        and run a reactor. To unlock what amounts to centuries of energy independence —
+        and to hit the target of <strong>100 GW of nuclear capacity by 2047</strong> —
+        India cannot follow the Western uranium path. It does not have the fuel for it.
+      </p>
+      <p>
+        In the 1950s, Dr. Homi J. Bhabha's answer was to architect a closed fuel cycle:
+        a three-stage physics marathon spanning generations, where each stage breeds the
+        fuel for the next. The programme is not a plan to <em>use</em> Thorium.
+        It is a plan to <em>manufacture the right to use it</em>.
+      </p>
+
+      <!-- ── Three-Stage Pipeline SVG ── -->
+      <figure class="pipeline-wrap" aria-label="India's three-stage nuclear fuel cycle pipeline diagram">
+        <svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg"
+             role="img" aria-label="Three-stage pipeline: PHWR breeds Plutonium, FBR breeds U-233, AHWR runs on Thorium">
+
+          <!-- Background -->
+          <rect width="760" height="200" fill="transparent"/>
+
+          <!-- ── Stage 1 Box ── -->
+          <rect x="20" y="54" width="180" height="92" rx="6"
+                fill="#0d1321" stroke="rgba(245,158,11,0.5)" stroke-width="1.5"/>
+          <text x="110" y="82" text-anchor="middle"
+                font-family="Rajdhani, sans-serif" font-weight="700"
+                font-size="15" fill="#f59e0b" letter-spacing="1">STAGE 1</text>
+          <text x="110" y="102" text-anchor="middle"
+                font-family="Rajdhani, sans-serif" font-size="13" fill="#eef4fb">PHWR</text>
+          <text x="110" y="120" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#607080">Natural Uranium</text>
+          <text x="110" y="135" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#607080">D₂O Cooled</text>
+
+          <!-- ── Arrow 1 → 2 ── -->
+          <line x1="200" y1="100" x2="268" y2="100"
+                stroke="rgba(245,158,11,0.6)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <polygon points="268,95 278,100 268,105"
+                   fill="rgba(245,158,11,0.7)"/>
+          <!-- Fuel label on arrow -->
+          <text x="239" y="90" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#f59e0b">breeds</text>
+          <text x="239" y="114" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#f59e0b">²³⁹Pu</text>
+
+          <!-- ── Stage 2 Box ── -->
+          <rect x="278" y="54" width="200" height="92" rx="6"
+                fill="#0d1321" stroke="rgba(0,212,255,0.45)" stroke-width="1.5"/>
+          <text x="378" y="82" text-anchor="middle"
+                font-family="Rajdhani, sans-serif" font-weight="700"
+                font-size="15" fill="#00d4ff" letter-spacing="1">STAGE 2</text>
+          <text x="378" y="102" text-anchor="middle"
+                font-family="Rajdhani, sans-serif" font-size="13" fill="#eef4fb">Fast Breeder Reactor</text>
+          <text x="378" y="120" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#607080">MOX Core + Th Blanket</text>
+          <text x="378" y="135" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#607080">Liquid Na Cooled</text>
+
+          <!-- ── Arrow 2 → 3 ── -->
+          <line x1="478" y1="100" x2="546" y2="100"
+                stroke="rgba(0,212,255,0.6)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <polygon points="546,95 556,100 546,105"
+                   fill="rgba(0,212,255,0.7)"/>
+          <text x="517" y="90" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#00d4ff">breeds</text>
+          <text x="517" y="114" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#00d4ff">²³³U</text>
+
+          <!-- ── Stage 3 Box ── -->
+          <rect x="556" y="54" width="184" height="92" rx="6"
+                fill="#0d1321" stroke="rgba(34,197,94,0.45)" stroke-width="1.5"/>
+          <text x="648" y="82" text-anchor="middle"
+                font-family="Rajdhani, sans-serif" font-weight="700"
+                font-size="15" fill="#22c55e" letter-spacing="1">STAGE 3</text>
+          <text x="648" y="102" text-anchor="middle"
+                font-family="Rajdhani, sans-serif" font-size="13" fill="#eef4fb">AHWR</text>
+          <text x="648" y="120" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#607080">²³³U + Th Fuel</text>
+          <text x="648" y="135" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#607080">Boiling Light Water</text>
+
+          <!-- ── Feedback loop arc (closed cycle) ── -->
+          <path d="M 740 100 Q 740 180 378 185 Q 20 180 20 100"
+                fill="none" stroke="rgba(34,197,94,0.2)" stroke-width="1"
+                stroke-dasharray="3,4"/>
+          <text x="378" y="198" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="8" fill="rgba(34,197,94,0.5)"
+                letter-spacing="1">CLOSED FUEL CYCLE</text>
+
+          <!-- ── Bottom labels ── -->
+          <text x="110" y="165" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="8" fill="rgba(245,158,11,0.6)">OPERATIONAL</text>
+          <text x="378" y="165" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="8" fill="rgba(0,212,255,0.7)">CRITICAL — APR 2026</text>
+          <text x="648" y="165" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace" font-size="8" fill="rgba(34,197,94,0.5)">PRE-CONSTRUCTION</text>
+        </svg>
+        <figcaption style="font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);text-align:center;margin-top:0.75rem;">
+          Fig 1. Bhabha's closed fuel cycle — each stage breeds the fuel for the next.
+          The loop only closes when Stage 3 achieves self-sustaining Thorium breeding.
+        </figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 1 — STAGE 1: PHWRs
+  ══════════════════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="stage-marker stage-marker--1">Stage 1 · PHWR</div>
+      <div class="section-header">
+        <h2 class="section-title">Pressurised Heavy Water Reactors</h2>
+        <p class="section-lead">
+          Goal: Build the foundation. Breed the trigger fuel — Plutonium-239.
+        </p>
+      </div>
+
+      <p>
+        Stage 1 starts with a fundamental neutron economy problem. Natural uranium contains
+        only <strong>0.7% fissile ²³⁵U</strong>; the remaining 99.3% is ²³⁸U, which does not
+        split. To sustain a chain reaction with such dilute fissile material, you cannot afford
+        to lose neutrons to the coolant. Light water (H₂O) absorbs too many. You must switch
+        to <strong>Heavy Water (D₂O)</strong>.
+      </p>
+      <p>
+        Deuterium already carries an extra neutron in its nucleus. Its neutron absorption
+        cross-section is orders of magnitude smaller than hydrogen's — slow thermal neutrons
+        bounce off it and keep hunting for the rare ²³⁵U atoms. This is the entire reason
+        India can run natural uranium fuel without the expensive enrichment infrastructure
+        that the Western light-water reactor path demands.
+      </p>
+      <p>
+        The ²³⁵U splits to generate commercial grid power. The real output, however, is what
+        happens to the useless ²³⁸U sitting next to it. It absorbs a stray neutron,
+        destabilises, and undergoes two successive beta decays. The product is the fuel
+        that Stage 2 runs on.
+      </p>
+
+      <div class="eq-block" aria-label="Uranium-238 to Plutonium-239 transmutation equations">
+        <div class="eq-label">Transmutation — ²³⁸U → ²³⁹Pu (Stage 1 breeding product)</div>
+        $$^{238}U + n \rightarrow ^{239}U \xrightarrow{23.5\,\text{min}} ^{239}Np + \beta^-$$
+        $$^{239}Np \xrightarrow{2.36\,\text{days}} ^{239}Pu + \beta^-$$
+      </div>
+
+      <div class="milestone milestone--amber">
+        <h4>Stage 1 — Current Status</h4>
+        <p>India operates a mature fleet of over <strong>20 PHWRs</strong>, forming the backbone of its <strong>8.78 GW</strong> installed nuclear capacity. The indigenous design has been successfully scaled to <strong>700 MWe</strong>.</p>
+        <p>Kakrapar Atomic Power Project Unit-4 (KAPP-4) achieved first criticality in <strong>December 2023</strong>, synchronised to the grid in early 2024, and reached full capacity by <strong>August 2024</strong>. Ten more 700 MWe PHWRs are under construction in fleet mode at Rawatbhata and Gorakhpur — the explicit purpose being to accelerate Plutonium stockpile accumulation for Stage 2 commissioning.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 2 — STAGE 2: FBR
+  ══════════════════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="stage-marker stage-marker--2">Stage 2 · Fast Breeder Reactor</div>
+      <div class="section-header">
+        <h2 class="section-title">Fast Breeder Reactors</h2>
+        <p class="section-lead">
+          Goal: Consume Plutonium, breed more fuel than is consumed, and transmute the Thorium blanket into ²³³U.
+        </p>
+      </div>
+
+      <p>
+        To breed — to produce more fissile material than the reactor consumes — the <em>reproduction
+        factor</em> (η) of Plutonium-239 must be maximised. This only happens with
+        <strong>fast, unmoderated neutrons at ~2 MeV</strong>. Slow (thermalised) neutrons will not
+        do it. This constraint bans water from the reactor entirely — water slows neutrons.
+        Instead, the core is flooded with <strong>molten liquid sodium</strong>, a metal
+        kept at approximately 200°C. Sodium transfers immense heat without thermalising the
+        neutron spectrum.
+      </p>
+
+      <p>
+        The void coefficient is the critical control problem. If the sodium boils and forms a void,
+        fewer neutrons are absorbed by the coolant, reactivity <em>increases</em>, which risks
+        further boiling — a runaway feedback loop. Managing this demands extreme geometric
+        precision in core design to guarantee a negative overall void coefficient.
+        The engineering tolerances are not like those of a thermal reactor.
+      </p>
+
+      <p>
+        The Thorium-232 is placed in a <em>blanket</em> surrounding the Plutonium core.
+        High-energy fast neutrons from the burning Pu core smash into the Th-232 atoms.
+        Each absorption event starts a short decay chain that ends with the production of
+        Uranium-233 — the fuel that Stage 3 will run on.
+      </p>
+
+      <div class="eq-block" aria-label="Thorium-232 to Uranium-233 transmutation equations">
+        <div class="eq-label">Transmutation — ²³²Th → ²³³U (Stage 2 breeding product)</div>
+        $$^{232}Th + n \rightarrow ^{233}Th \xrightarrow{22.3\,\text{min}} ^{233}Pa + \beta^-$$
+        $$^{233}Pa \xrightarrow{27\,\text{days}} ^{233}U + \beta^-$$
+      </div>
+
+      <div class="milestone milestone--green">
+        <h4>⚡ Historic Milestone — April 6, 2026</h4>
+        <p>
+          The <strong>500 MWe Prototype Fast Breeder Reactor (PFBR)</strong> at Kalpakkam officially
+          achieved first criticality — a self-sustaining nuclear chain reaction — making India
+          <strong>only the second country in the world</strong> (alongside Russia) to operate a
+          commercial-scale Fast Breeder Reactor.
+        </p>
+        <p>
+          Built entirely indigenously by BHAVINI and IGCAR, with no foreign technology transfer.
+          Following successful commissioning, the government has authorised twin
+          <strong>600 MWe FBRs</strong> at the same Kalpakkam site, securing the Pu-burn and
+          ²³³U breeding capacity needed to feed Stage 3.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 3 — STAGE 3: AHWR
+  ══════════════════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="stage-marker stage-marker--3">Stage 3 · AHWR</div>
+      <div class="section-header">
+        <h2 class="section-title">Advanced Heavy Water Reactors</h2>
+        <p class="section-lead">
+          Goal: Near-infinite, self-sustaining energy from India's own Thorium reserves.
+        </p>
+      </div>
+
+      <p>
+        Uranium-233 is a physics marvel with a specific property that makes the entire programme
+        possible: it is the <strong>only fissile isotope with a reproduction factor (η) above 2
+        in the thermal neutron spectrum</strong>. Neither ²³⁵U nor ²³⁹Pu can breed in thermal
+        reactors — they require fast neutrons (and the dangerous sodium infrastructure that comes
+        with them). ²³³U can breed in a slow-neutron, water-cooled reactor. Stage 3 is therefore
+        a strategic step back to safe, stable, water-based designs — but only after Stage 2
+        has manufactured enough ²³³U to seed it.
+      </p>
+
+      <h3 class="mt-4">Challenge 1: The Protactinium Bottleneck</h3>
+      <p>
+        The intermediate decay product, Protactinium-233, has a half-life of <strong>27 days</strong>.
+        Inside a high-flux reactor, there is a real probability that a ²³³Pa nucleus will absorb
+        a stray neutron and become ²³⁴Pa before it has time to decay into ²³³U — destroying the
+        fuel cycle at the source. The AHWR-300 design must carefully manage neutron flux
+        distribution to minimise this capture rate.
+      </p>
+
+      <h3 class="mt-3">Challenge 2: The ²³²U Gamma Problem</h3>
+      <p>
+        Irradiating Thorium inevitably produces trace quantities of Uranium-232.
+        This isotope decays through a short chain that terminates in Thallium-208,
+        which emits a brutally hard, deeply penetrating <strong>2.6 MeV gamma ray</strong>.
+      </p>
+      <div class="eq-block" aria-label="Uranium-232 decay chain to Thallium-208 gamma emitter">
+        <div class="eq-label">²³²U decay chain — the 2.6 MeV gamma source</div>
+        $$^{232}U \rightarrow \cdots \rightarrow ^{208}Tl \rightarrow ^{208}Pb + \gamma\ (2.6\,\text{MeV})$$
+      </div>
+      <p>
+        This gamma radiation makes the fuel extremely difficult to divert or weaponise —
+        proliferation-resistant by physics rather than by policy. It also means every Stage 3
+        fuel fabrication step must be conducted inside <strong>heavily shielded, fully automated
+        robotic facilities</strong>. There is no human-hands-on option.
+      </p>
+
+      <div class="milestone">
+        <h4>Stage 3 — Current Status</h4>
+        <p>
+          The Bhabha Atomic Research Centre (BARC) has completed the full design and final
+          validation of the <strong>AHWR-300</strong> (300 MWe). The design includes a
+          Gravity-Driven Water Pool (GDWP) positioned above the reactor core — in a complete
+          station blackout, natural convection will passively cool the core for
+          <strong>at least 30 days</strong> with zero operator intervention and no external power.
+          A Fukushima-style accident is architecturally excluded.
+        </p>
+        <p>
+          As of 2026, AHWR remains in the pre-construction phase. Commercial construction
+          is contingent on the steady ²³³U stockpile that will now begin accumulating inside
+          the newly critical Stage 2 Kalpakkam PFBR.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 4 — PUREX & THOREX
+  ══════════════════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="section-header">
+        <div class="section-tag">Chemical Engineering</div>
+        <h2 class="section-title">The Chemical Backbone: PUREX &amp; THOREX</h2>
+        <p class="section-lead">
+          Reactors breed the fuel — they do not extract it. A closed cycle is impossible without
+          a parallel chemical reprocessing infrastructure operating inside shielded hot cells.
+        </p>
+      </div>
+
+      <p>
+        Spent fuel is intensely radioactive and thermally hot. The newly bred Plutonium or
+        Uranium-233 is locked inside a toxic matrix of fission products. To feed the next stage,
+        these materials must be surgically separated using solvent extraction chemistry,
+        operated entirely by master-slave manipulators behind metres of shielding.
+        India uses two distinct processes depending on the fuel type.
+      </p>
+
+      <div class="chem-process-grid">
+
+        <div class="chem-process-card">
+          <div class="chem-process-tag">Stage 1 → 2</div>
+          <div class="chem-process-title">PUREX Process</div>
+          <ul class="feature-list" style="margin-top:0.5rem;">
+            <li>
+              <span class="icon">→</span>
+              <div>Spent uranium bundles are chopped and dissolved in boiling nitric acid (HNO₃).</div>
+            </li>
+            <li>
+              <span class="icon">→</span>
+              <div>Solution is washed with Tributyl Phosphate (TBP) diluted in kerosene. TBP selectively binds to Uranium and Plutonium, leaving fission products behind.</div>
+            </li>
+            <li>
+              <span class="icon">→</span>
+              <div>The Pu and U are then chemically separated from each other in subsequent reduction stages.</div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="chem-process-card">
+          <div class="chem-process-tag">Stage 2 → 3</div>
+          <div class="chem-process-title">THOREX Process</div>
+          <ul class="feature-list" style="margin-top:0.5rem;">
+            <li>
+              <span class="icon">→</span>
+              <div>Thorium dioxide (ThO₂) is chemically inert and refuses to dissolve in standard acids. It requires a <strong>boiling mixture of concentrated HNO₃ and hydrofluoric acid (HF)</strong> to break its bonds.</div>
+            </li>
+            <li>
+              <span class="icon">→</span>
+              <div>This corrosive mixture demands highly specialised, HF-resistant alloy piping throughout the entire facility — a significant materials engineering challenge.</div>
+            </li>
+            <li>
+              <span class="icon">→</span>
+              <div>The extracted ²³³U must then be processed entirely behind shielding due to the ²³²U gamma contamination problem.</div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 5 — DPA & ALLOY D9
+  ══════════════════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="section-header">
+        <div class="section-tag">Materials Science</div>
+        <h2 class="section-title">The Crucible: DPA and Alloy D9</h2>
+        <p class="section-lead">
+          The inside of a Fast Breeder Reactor is not just hot. It is a sustained kinetic
+          bombardment at the atomic scale.
+        </p>
+      </div>
+
+      <p>
+        Fast neutrons at ~2 MeV do not merely cause fission. When one collides with an iron atom
+        in the steel reactor cladding, the iron atom is knocked violently out of its crystal
+        lattice position. The severity of this damage is measured in
+        <strong>DPA — Displacements Per Atom</strong>.
+      </p>
+
+      <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin:1.5rem 0;">
+        <div class="dpa-stat">
+          <span class="dpa-stat-val">100×</span>
+          <span class="dpa-stat-label">displacements per atom<br>over PFBR's lifespan</span>
+        </div>
+        <div class="dpa-stat" style="border-color:rgba(239,68,68,0.25);">
+          <span class="dpa-stat-val" style="color:var(--amber); font-size:1.4rem;">Void Swelling</span>
+          <span class="dpa-stat-label">& radiation embrittlement<br>in standard steels</span>
+        </div>
+      </div>
+
+      <p>
+        Every single atom in the PFBR core cladding will be displaced from its lattice position
+        up to 100 times over the reactor's operational life. This constant atomic disruption
+        causes two failure modes in conventional steel: <strong>void swelling</strong>
+        (the material physically expands like a balloon as vacancies cluster) and
+        <strong>radiation embrittlement</strong> (the steel loses ductility and shatters).
+        Standard structural steel fails both tests — it cannot survive the Stage 2 environment.
+      </p>
+
+      <h3 class="mt-4">The Indian Solution: Alloy D9</h3>
+      <p>
+        Metallurgists at IGCAR (Indira Gandhi Centre for Atomic Research) developed and
+        qualified <strong>Alloy D9</strong>: a Titanium-modified austenitic stainless steel
+        with a composition of 15% Chromium and 15% Nickel (15Cr-15Ni-Ti).
+      </p>
+      <p>
+        The Titanium additives function as <em>defect traps</em>. When a fast neutron
+        displaces an atom and creates a vacancy-interstitial pair (a Frenkel defect),
+        the Titanium precipitates in the microstructure intercept these defects before they
+        can cluster into the extended voids that cause swelling. The lattice is continuously
+        disrupted and continuously stabilised. Standard steel warps and shatters;
+        Alloy D9 endures. The entire PFBR fuel assembly cladding is manufactured from it.
+      </p>
+
+      <div class="callout cyan mt-4">
+        <h4 style="margin-bottom:0.4rem;">Indigenous Development</h4>
+        <p style="margin:0; font-size:0.9rem;">
+          Alloy D9 is not a licensed foreign material. It was invented, characterised, and
+          qualified entirely by Indian scientists at IGCAR. The full manufacturing process —
+          from melt chemistry to tube drawing to weld qualification — was developed domestically.
+          There is no equivalent open-literature precedent for this specific formulation being
+          used at this scale.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 6 — WASTE PROFILE
+  ══════════════════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="container reading-col">
+
+      <div class="section-header">
+        <div class="section-tag">Waste Science</div>
+        <h2 class="section-title">The Waste Profile: The Thorium Advantage</h2>
+        <p class="section-lead">
+          Conventional Uranium-Plutonium reactors produce waste that stays dangerous for
+          geological timescales. Stage 3's Thorium cycle does not.
+        </p>
+      </div>
+
+      <p>
+        The long-term hazard of nuclear waste is driven by <em>minor actinides</em>:
+        Americium, Curium, and Neptunium. These transuranics are produced when a heavy
+        nucleus absorbs a neutron without fissioning. Because Uranium-238 is heavy,
+        it only requires a few sequential neutron captures to build up into these
+        long-lived, highly radiotoxic isotopes. The result is waste that must be isolated
+        from the biosphere for <strong>10,000+ years</strong>.
+      </p>
+      <p>
+        Thorium-232 occupies a uniquely advantageous position on the periodic table.
+        It sits <strong>6 atomic mass units lighter than ²³⁸U</strong>. To become a
+        long-lived minor actinide, a Thorium nucleus would need to successfully absorb
+        six or seven consecutive neutrons without fissioning first — a statistically
+        improbable sequence. The pathway to minor actinide production is effectively closed.
+      </p>
+
+      <div class="waste-compare" aria-label="Waste radiotoxicity comparison">
+        <div class="waste-compare-col waste-compare-col--danger">
+          <div class="waste-compare-col-title">Stage 1 Waste (U-Pu)</div>
+          <div class="waste-compare-col-val">&gt;10,000 yr</div>
+          <div class="waste-compare-col-sub">
+            Requires deep geological<br>
+            repository isolation.<br>
+            Outlasts recorded human history<br>
+            by an order of magnitude.
+          </div>
+        </div>
+        <div class="waste-compare-col waste-compare-col--safe">
+          <div class="waste-compare-col-title">Stage 3 Waste (Thorium)</div>
+          <div class="waste-compare-col-val">300–500 yr</div>
+          <div class="waste-compare-col-sub">
+            Radiotoxicity drops to natural<br>
+            uranium ore background levels.<br>
+            Comparable to the time since<br>
+            the Mughal Empire.
+          </div>
+        </div>
+      </div>
+
+      <!-- Waste radiotoxicity Chart.js -->
+      <div class="waste-chart-wrap" aria-label="Comparative waste radiotoxicity chart">
+        <canvas id="wasteChart" aria-label="Line chart comparing radiotoxicity decay of U-Pu waste vs Thorium waste over time" role="img"></canvas>
+        <div class="waste-chart-legend">
+          <span class="waste-chart-legend-item">
+            <span class="waste-chart-legend-dot" style="background:#ef4444;"></span>
+            Stage 1 (U-Pu cycle) — Minor actinides
+          </span>
+          <span class="waste-chart-legend-item">
+            <span class="waste-chart-legend-dot" style="background:#22c55e;"></span>
+            Stage 3 (Thorium cycle)
+          </span>
+          <span class="waste-chart-legend-item">
+            <span class="waste-chart-legend-dot" style="background:rgba(0,212,255,0.4); border:1px dashed #00d4ff;"></span>
+            Natural uranium ore baseline
+          </span>
+        </div>
+        <p style="font-family:var(--mono);font-size:0.65rem;color:var(--text-dim);margin-top:0.5rem;margin-bottom:0;">
+          Illustrative model. Y-axis: relative radiotoxicity (log scale, normalised to natural uranium ore = 1.0).
+          X-axis: years after disposal. Curves are representative of published IAEA/NEA data trends.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCOPE NOTE
+  ══════════════════════════════════════════════════════════════ -->
+  <section class="section" style="padding-bottom:4rem;">
+    <div class="container reading-col">
+      <div class="flex gap-2 flex-wrap mb-3">
+        <span class="badge badge-cyan">Technical Writing</span>
+        <span class="badge badge-amber">Nuclear Physics</span>
+        <span class="badge badge-cyan">Stage 2 Critical</span>
+        <span class="badge badge-amber">PFBR · April 2026</span>
+        <span class="badge badge-green" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);color:var(--green);">IGCAR · BARC · BHAVINI</span>
+      </div>
+      <div class="callout">
+        <h4 style="margin-bottom:0.5rem;">Sources &amp; Scope</h4>
+        <p style="margin:0;font-size:0.9rem;line-height:1.75;">
+          Content draws on publicly available technical literature from BARC, IGCAR, BHAVINI,
+          the IAEA, and academic papers on the Indian nuclear programme.
+          Mathematical equations follow standard nuclear physics notation.
+          The waste radiotoxicity chart is an illustrative model based on published
+          IAEA/NEA data trends — not raw simulation output.
+          PFBR first criticality date (April 6, 2026) is per official BHAVINI / DAE announcement.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Vishal Bagade</div>
+      <div class="footer-meta mt-1">India's 3-Stage Nuclear Programme · Technical Analysis</div>
+    </div>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="https://github.com/vishal0002" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/vishal-bagade/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="mailto:vishalbagade@gmail.com">Email</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- Nav toggle -->
+<script>
+const navToggle = document.getElementById('navToggle');
+const navLinks  = document.getElementById('navLinks');
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }));
+  document.addEventListener('click', e => {
+    if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+</script>
+
+<!-- Waste radiotoxicity Chart -->
+<script>
+(function() {
+  /* ── Data model ──────────────────────────────────────────────
+     Representative illustrative curves based on IAEA/NEA trends.
+     Y: relative radiotoxicity normalised to natural uranium ore = 1.0 (log scale)
+     X: years after disposal
+  ──────────────────────────────────────────────────────────── */
+  const years    = [1, 10, 50, 100, 200, 300, 500, 1000, 3000, 5000, 10000, 50000, 100000];
+
+  // U-Pu cycle — minor actinides keep it elevated for millennia
+  const uPuWaste = [10000, 8000, 4000, 2500, 900, 500, 200, 80, 20, 8, 2.5, 1.2, 1.05];
+
+  // Thorium cycle — drops steeply, hits baseline ~300-500 yr
+  const thWaste  = [10000, 7500, 2500, 800, 150, 15, 2, 1.1, 1.0, 1.0, 1.0, 1.0, 1.0];
+
+  // Natural uranium ore baseline — always 1.0
+  const baseline = years.map(() => 1.0);
+
+  const GRID   = 'rgba(0,212,255,0.07)';
+  const TICK   = '#607080';
+  const MONO   = "'IBM Plex Mono', monospace";
+
+  const canvas = document.getElementById('wasteChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: years,
+      datasets: [
+        {
+          label: 'U-Pu Cycle',
+          data: uPuWaste,
+          borderColor: '#ef4444',
+          borderWidth: 2,
+          pointRadius: 2,
+          pointHoverRadius: 5,
+          pointBackgroundColor: '#ef4444',
+          fill: false,
+          tension: 0.3,
+        },
+        {
+          label: 'Thorium Cycle',
+          data: thWaste,
+          borderColor: '#22c55e',
+          borderWidth: 2,
+          pointRadius: 2,
+          pointHoverRadius: 5,
+          pointBackgroundColor: '#22c55e',
+          fill: false,
+          tension: 0.3,
+        },
+        {
+          label: 'Natural Uranium Ore Baseline',
+          data: baseline,
+          borderColor: 'rgba(0,200,255,0.45)',
+          borderWidth: 1.5,
+          borderDash: [5, 4],
+          pointRadius: 0,
+          fill: false,
+          tension: 0,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      aspectRatio: window.innerWidth < 640 ? 1.4 : 2.2,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0d1321',
+          borderColor: 'rgba(0,212,255,0.25)',
+          borderWidth: 1,
+          titleColor: '#00d4ff',
+          bodyColor: '#c8d6e5',
+          titleFont: { family: MONO, size: 10 },
+          bodyFont:  { family: MONO, size: 11 },
+          padding: 10,
+          callbacks: {
+            title: (items) => `Year ${items[0].label}`,
+            label: (item) => ` ${item.dataset.label}: ${item.raw}× baseline`,
+          },
+        },
+      },
+      scales: {
+        x: {
+          type: 'logarithmic',
+          grid: { color: GRID },
+          ticks: {
+            color: TICK,
+            font: { family: MONO, size: 9 },
+            callback: (v) => {
+              const map = { 1:'1 yr', 10:'10', 100:'100', 1000:'1k', 10000:'10k', 100000:'100k' };
+              return map[v] || '';
+            },
+            maxTicksLimit: 8,
+          },
+          title: {
+            display: true,
+            text: 'Years after disposal',
+            color: TICK,
+            font: { family: MONO, size: 9 },
+          },
+          border: { color: GRID },
+        },
+        y: {
+          type: 'logarithmic',
+          grid: { color: GRID },
+          ticks: {
+            color: TICK,
+            font: { family: MONO, size: 9 },
+            callback: (v) => {
+              const map = { 1:'1× (baseline)', 10:'10×', 100:'100×', 1000:'1,000×', 10000:'10,000×' };
+              return map[v] || '';
+            },
+            maxTicksLimit: 6,
+          },
+          title: {
+            display: true,
+            text: 'Relative radiotoxicity (log)',
+            color: TICK,
+            font: { family: MONO, size: 9 },
+          },
+          border: { color: GRID },
+          min: 0.5,
+        },
+      },
+    },
+  });
+})();
+</script>
+
+<!-- Trigger MathJax typeset after page load -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.MathJax && MathJax.startup) {
+    MathJax.startup.promise.then(() => MathJax.typesetPromise());
+  }
+});
+</script>
+
+</body>
+</html>
